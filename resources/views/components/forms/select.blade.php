@@ -1,0 +1,10 @@
+@props(['name','label'=>'','options','selected'=>''])
+
+<select class="form-control" id="parent" name="{{$name}}">
+    <option value="" disabled >{{$label}}</option>
+    @forelse ($options as $value)
+        <option @selected($value->id==old($name,$selected)) value="{{ $value->id }}">{{ $value->name }}</option>
+    @empty
+        <option value="" disabled>No data available</option>
+    @endforelse
+</select>
