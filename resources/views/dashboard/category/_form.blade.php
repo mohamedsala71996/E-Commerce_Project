@@ -3,9 +3,10 @@
     <label for="name">Name:</label>
     {{-- <input type="text" class="form-control" id="name" name="name" value="{{old('name',$category->name )}}" required> --}}
     <x-forms.input type='text' name='name' :value="$category->name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" required/>
-    @error('name')
+    {{-- @error('name')
         <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+    @enderror --}}
+    <x-forms.errorMessage name='name' message='message' />
 </div>
 
 <div class="form-group">
