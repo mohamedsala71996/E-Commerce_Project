@@ -7,7 +7,8 @@
 
 <div class="form-group">
     <x-forms.label for='description' value='Description' />
-    <textarea class="form-control" id="description" name="description" rows="3">{{old('description',$category->description)}}</textarea>
+    {{-- <textarea class="form-control" id="description" name="description" rows="3">{{old('description',$category->description)}}</textarea> --}}
+    <x-forms.textarea class="form-control" id='description' rows="3" name="description" :value="$category->description" />
 </div>
 <input type="hidden" name='id' value='{{$category->id}}' >
 <div class="form-group">
@@ -23,18 +24,17 @@
 </div>
 
 <div class="form-group">
-    <x-forms.label  value='Status' />
+    {{-- <label>Status</label>
     <div class="form-check">
-        {{-- <input class="form-check-input" type="radio" name="status" id="active" value="active" @checked('active'==old('status',$category->status))>
-        <label class="form-check-label" for="active">Active</label> --}}
-        <x-forms.checkRadio name='status' id="active" value="active" :data="$category->status" label='Active'/>
+        <input class="form-check-input" type="radio" name="status" id="active" value="active" @checked('active'==old('status',$category->status))>
+        <label class="form-check-label" for="active">Active</label>
     </div>
     <div class="form-check">
-        {{-- <input class="form-check-input" type="radio" name="status" id="archived" value="archived" @checked('archived'==old('status',$category->status))>
-        <label class="form-check-label" for="archived">Archived</label> --}}
-        <x-forms.checkRadio name='status' id="archived" value="archived" :data="$category->status" label='Archived'/>
+        <input class="form-check-input" type="radio" name="status" id="archived" value="archived" @checked('archived'==old('status',$category->status))>
+        <label class="form-check-label" for="archived">Archived</label>
 
-    </div>
+    </div> --}}
+    <x-forms.checkRadio label='status' :options="['active'=>'Active','archived'=>'Archived']" name='status' :checked="$category->status" />
 </div>
 
 <div class="form-group">

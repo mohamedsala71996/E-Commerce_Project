@@ -1,4 +1,15 @@
-@props(['name','id','value','data','label'])
+@props(['label'=>'','name','options','checked'=>''])
 
-<input class="form-check-input" type="radio" name="{{$name}}" id="{{$id}}" value="{{$value}}" @checked($value==old($name,$data))>
-<label class="form-check-label" for="{{$id}}">{{$label}}</label>
+@if ($label!='')
+<label>{{$label}}</label>
+@endif
+
+@foreach ($options as $value => $text)
+
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="{{$name}}" id="{{$value}}" value="{{$value}}" @checked($value==old($name,$checked)) {{$attributes}}>
+    <label class="form-check-label" for="{{$value}}">{{$text}}</label>
+</div>
+
+@endforeach
+
