@@ -175,6 +175,8 @@
             </a>
 
 
+            <x-sidebar/>
+      
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
@@ -204,7 +206,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
 
-            {{-- @if ($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <h3>Error Occurred!</h3>
                     <ul>
@@ -216,7 +218,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-            @endif --}}
+            @endif
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}

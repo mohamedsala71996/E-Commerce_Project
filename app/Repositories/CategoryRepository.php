@@ -9,7 +9,8 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function getAllCategories()
     {
-        return Category::all();
+        // return Category::paginate(10);
+        return Category::query();
     }
     public function getCategoryById($CategoryId)
     {
@@ -27,5 +28,5 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::whereId($CategoryId)->update($newDetails);
     }
-    
+
 }

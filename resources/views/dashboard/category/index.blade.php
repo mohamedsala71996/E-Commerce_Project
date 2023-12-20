@@ -8,10 +8,30 @@
 
 
 @section('content')
+<div class="container ">
 
-    <div class="mb-3">
-        <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">Create</a>
+    <div class="mb-5">
+        <a href="{{ route('categories.create') }}" class="btn btn-success">Create</a>
     </div>
+    <form action="{{ url()->current() }}" method="GET" class="mb-3">
+        @csrf
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                {{-- <input type="text" name="name" class="form-control" placeholder="Search by Name" > --}}
+                <x-forms.input type="text" name="name" class="form-control" placeholder="Search by Name" value="{{ request('name') }}" />
+            </div>
+            <div class="col-md-4 mb-2">
+                <select name="status" class="form-control">
+                    <option value="" @selected(request('status') === '') >All</option>
+                    <option value="active" @selected(request('status') === 'active')  >Active</option>
+                    <option value="archived" @selected(request('status') === 'archived') >Archived</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -31,8 +51,9 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->parent ? $category->parent->name : '' }}</td>
-                        <td>{{ $category->status }}</td>
-                        <td class="align-middle">
+                        <td class="align-middle {{ $category->status === 'active' ? 'text-success' : 'text-danger' }}">
+                            {{ $category->status }}
+                        </td>                        <td class="align-middle">
                             <img src="{{ asset("storage/$category->image") }}"
                                 alt="{{ $category->name . ' photo not exist' }}"  height="50"
                                 width="50">
@@ -55,6 +76,16 @@
             </tbody>
         </table>
     </div>
+
+    <div class="d-flex justify-content-center">
+        {{-- {{ $categories->links('vendor.pagination.bootstrap-5') }} --}}
+        {{-- {{ $categories->links() }} --}}
+        {{-- {{ $categories->appends(request()->input())->links() }} --}}
+        {{ $categories->withQueryString()->links() }}
+
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
