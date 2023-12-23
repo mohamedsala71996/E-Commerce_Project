@@ -23,23 +23,17 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-
-        // if ($request->name && $request->status!=1) {
-        //     $categories=Category::where('name',$request->name)->where('status',$request->status)->paginate(10);
-        // }elseif ($request->name && $request->status==1) {
-        //     $categories=Category::where('name',$request->name)->paginate(10);
-        // }else{
-        //     $categories=$this->categoryRepository->getAllCategories();
+        // $query=$this->categoryRepository->getAllCategories();
+        // if ($request->name) {
+        //     $query->where('name','LIKE',"%{$request->name}%");
+        // }
+        // if ($request->status) {
+        //     $query->where('status',$request->status);
         // }
 
-        $query=$this->categoryRepository->getAllCategories();
-        if ($request->name) {
-            $query->where('name','LIKE',"%{$request->name}%");
-        }
-        if ($request->status) {
-            $query->where('status',$request->status);
-        }
-        $categories=$query->paginate(10);
+        // $categories=$query->paginate(10);
+
+        $categories=Category::Filter($request)->paginate(10);
 
         return view("dashboard.category.index", compact("categories"));
     }
