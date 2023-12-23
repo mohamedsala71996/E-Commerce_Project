@@ -10,16 +10,10 @@
 @section('content')
 <div class="container ">
 
-    <div class="mb-3">
-        <a href="{{ route('categories.create') }}" class="btn btn-success">Create</a>
-        <a href="{{ route('categories.trashes') }}" class="btn btn-danger">view trashes</a>
-    </div>
-
     <form action="{{ url()->current() }}" method="GET" class="mb-3">
         @csrf
         <div class="row">
             <div class="col-md-6 mb-2">
-                {{-- <input type="text" name="name" class="form-control" placeholder="Search by Name" > --}}
                 <x-forms.input type="text" name="name" class="form-control" placeholder="Search by Name" value="{{ request('name') }}" />
             </div>
             <div class="col-md-4 mb-2">
@@ -43,7 +37,7 @@
                     <th>Parent</th>
                     <th>Status</th>
                     <th>Image</th>
-                    <th>Created At</th>
+                    <th>Deleted At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -60,9 +54,9 @@
                                 alt="{{ $category->name . ' photo not exist' }}"  height="50"
                                 width="50">
                         </td>
-                        <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>{{ $category->deleted_at->format('Y-m-d H:i:s') }}</td>
                         <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ route('categories.restoreTrashes', $category->id) }}" class="btn btn-sm btn-success">restore</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                 data-target="#deleteModal{{ $category->id }}">
                                 Delete

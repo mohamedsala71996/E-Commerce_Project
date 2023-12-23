@@ -14,7 +14,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                @if ($category->deleted_at==Null)
                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                @else
+                <form action="{{ route('categories.forceDelete', $category->id) }}" method="POST">
+                @endif
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>

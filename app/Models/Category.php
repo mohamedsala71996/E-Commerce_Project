@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'name',
         'description',
@@ -23,17 +25,6 @@ class Category extends Model
     }
     public function scopeFilter(Builder $builder, $filters)
     {
-
-        // $builder->when($filters['name'] ?? false, function ($builder,$value) {
-
-        //     $builder->where('name', 'LIKE', "%{$value}%");
-        // });
-
-        // $builder->when($filters['status'] ?? false, function ($builder,$value) {
-
-        //     $builder->where('status', $value);
-        // });
-
         if ($filters->name) {
             $builder->where('name', 'LIKE', "%{$filters['name']}%");
         }

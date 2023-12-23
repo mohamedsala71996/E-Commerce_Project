@@ -1,7 +1,7 @@
 @props(['name','label'=>'','options','selected'=>''])
 
 <select class="form-control" id="parent" name="{{$name}}">
-    <option value="" disabled >{{$label}}</option>
+    <option value="" disabled selected>{{$label}}</option>
     @forelse ($options as $value)
         <option @selected($value->id==old($name,$selected)) value="{{ $value->id }}">{{ $value->name }}</option>
     @empty

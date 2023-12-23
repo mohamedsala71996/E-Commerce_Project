@@ -9,4 +9,6 @@ interface CategoryRepositoryInterface
     public function deleteCategory($CategoryId);
     public function createCategory(array $CategoryDetails);
     public function updateCategory($CategoryId, array $newDetails);
+    public function forceDeleteCategory($CategoryId);
+    public function restoreTrashesCategory($CategoryId);
 }

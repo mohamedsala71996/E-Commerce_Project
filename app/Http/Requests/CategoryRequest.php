@@ -24,8 +24,14 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name,' . $this->id,
             'status' => 'required|in:active,archived',
-            'image'  => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image'  => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|int|exists:categories,id',
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'name.unique' => 'The name has already been taken or you need to force delete it from trashes.',
         ];
     }
 }

@@ -23,18 +23,7 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-        // $query=$this->categoryRepository->getAllCategories();
-        // if ($request->name) {
-        //     $query->where('name','LIKE',"%{$request->name}%");
-        // }
-        // if ($request->status) {
-        //     $query->where('status',$request->status);
-        // }
-
-        // $categories=$query->paginate(10);
-
-        $categories=Category::Filter($request)->paginate(10);
-
+        $categories = Category::Filter($request)->paginate(10);
         return view("dashboard.category.index", compact("categories"));
     }
 
@@ -53,7 +42,7 @@ class CategoryController extends Controller
             ['slug' => Str::slug($request->name)]
         );
         $imagePath = $request->file('image')
-            ? $request->file('image')->storeAs('CategoryPhotos', $data['slug'] ."_Category_". $request->file('image')->getClientOriginalName(), 'public')
+            ? $request->file('image')->storeAs('CategoryPhotos', $data['slug'] . "_Category_" . $request->file('image')->getClientOriginalName(), 'public')
             : '';
         $this->categoryRepository->createCategory(array_merge($data, ['image' => $imagePath]));
 
@@ -79,13 +68,13 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, $CategoryId)
     {
-        $data = array_merge($request->except('image','_token','_method','id'), ['slug' => Str::slug($request->name)]);
+        $data = array_merge($request->except('image', '_token', '_method', 'id'), ['slug' => Str::slug($request->name)]);
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         if ($request->hasFile('image')) {
             if (Storage::disk('public')->exists($category->image)) {
                 Storage::disk('public')->delete($category->image);
             }
-            $imagePath = $request->file('image')->storeAs('CategoryPhotos',$data['slug']."_Category_".$request->file('image')->getClientOriginalName(), 'public');
+            $imagePath = $request->file('image')->storeAs('CategoryPhotos', $data['slug'] . "_Category_" . $request->file('image')->getClientOriginalName(), 'public');
         } elseif (!$request->hasFile('image') && $category->image) {
             $imagePath = $category->image;
         } else {
@@ -97,11 +86,36 @@ class CategoryController extends Controller
 
     public function destroy($CategoryId)
     {
-        $imagePath = Category::findOrFail($CategoryId)->image;
+        // $imagePath = Category::findOrFail($CategoryId)->image;
         $this->categoryRepository->deleteCategory($CategoryId);
-        if (Storage::disk('public')->exists($imagePath)) {
-            Storage::disk('public')->delete($imagePath);
-        }
-        return redirect()->back()->with("success", "Data deleted successfully");
+        // if (Storage::disk('public')->exists($imagePath)) {
+        //     Storage::disk('public')->delete($imagePath);
+        // }
+        return redirect()->back()->with("success", "Data trashed successfully");
     }
+
+    public function viewTrashes(Request $request)
+
+    {
+        $categories = Category::Filter($request)->onlyTrashed()->paginate(10);
+        return view('dashboard.category.trashes', compact('categories'));
+    }
+    public function forceDelete($CategoryId)
+
+    {
+
+        $this->categoryRepository->forceDeleteCategory($CategoryId);
+        return redirect()->back()->with("success", "Data deleted successfully");
+
+    }
+    public function restoreTrashes($CategoryId)
+
+    {
+
+        $this->categoryRepository->restoreTrashesCategory($CategoryId);
+        return redirect()->back()->with("success", "Data restored successfully");
+
+    }
+
+
 }
