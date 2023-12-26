@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
+use App\Traits\FileDeletionTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    use FileDeletionTrait;
 
     private CategoryRepositoryInterface $categoryRepository;
 
@@ -24,7 +26,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::Filter($request)->paginate(10);
-        return view("dashboard.category.index", compact("categories"));
+        return view("dashboard.categories.index", compact("categories"));
     }
 
 
@@ -32,7 +34,7 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $parents = $this->categoryRepository->getAllCategories();
-        return view("dashboard.category.create", compact("parents", "category"));
+        return view("dashboard.categories.create", compact("parents", "category"));
     }
 
     public function store(CategoryRequest $request)
@@ -63,7 +65,7 @@ class CategoryController extends Controller
                     ->orWhereNull('parent_id');
             })
             ->get();
-        return view("dashboard.category.edit", compact("category", "parents"));
+        return view("dashboard.categories.edit", compact("category", "parents"));
     }
 
     public function update(CategoryRequest $request, $CategoryId)
@@ -71,9 +73,7 @@ class CategoryController extends Controller
         $data = array_merge($request->except('image', '_token', '_method', 'id'), ['slug' => Str::slug($request->name)]);
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         if ($request->hasFile('image')) {
-            if (Storage::disk('public')->exists($category->image)) {
-                Storage::disk('public')->delete($category->image);
-            }
+            $this->deleteFile($category->image);
             $imagePath = $request->file('image')->storeAs('CategoryPhotos', $data['slug'] . "_Category_" . $request->file('image')->getClientOriginalName(), 'public');
         } elseif (!$request->hasFile('image') && $category->image) {
             $imagePath = $category->image;
@@ -88,9 +88,7 @@ class CategoryController extends Controller
     {
         // $imagePath = Category::findOrFail($CategoryId)->image;
         $this->categoryRepository->deleteCategory($CategoryId);
-        // if (Storage::disk('public')->exists($imagePath)) {
-        //     Storage::disk('public')->delete($imagePath);
-        // }
+        // $this->deleteFile($imagePath);
         return redirect()->back()->with("success", "Data trashed successfully");
     }
 
@@ -98,13 +96,15 @@ class CategoryController extends Controller
 
     {
         $categories = Category::Filter($request)->onlyTrashed()->paginate(10);
-        return view('dashboard.category.trashes', compact('categories'));
+        return view('dashboard.categories.trashes', compact('categories'));
     }
     public function forceDelete($CategoryId)
 
     {
-
+        $imagePath = Category::onlyTrashed()->findOrFail($CategoryId)->image;
         $this->categoryRepository->forceDeleteCategory($CategoryId);
+        $this->deleteFile($imagePath);
+
         return redirect()->back()->with("success", "Data deleted successfully");
 
     }

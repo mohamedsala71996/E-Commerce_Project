@@ -19,7 +19,6 @@
         @csrf
         <div class="row">
             <div class="col-md-6 mb-2">
-                {{-- <input type="text" name="name" class="form-control" placeholder="Search by Name" > --}}
                 <x-forms.input type="text" name="name" class="form-control" placeholder="Search by Name" value="{{ request('name') }}" />
             </div>
             <div class="col-md-4 mb-2">
@@ -55,7 +54,8 @@
                         <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
                         <td class="align-middle {{ $category->status === 'active' ? 'text-success' : 'text-danger' }}">
                             {{ $category->status }}
-                        </td>                        <td class="align-middle">
+                        </td>                   
+                        <td class="align-middle">
                             <img src="{{ asset("storage/$category->image") }}"
                                 alt="{{ $category->name . ' photo not exist' }}"  height="50"
                                 width="50">
@@ -67,7 +67,7 @@
                                 data-target="#deleteModal{{ $category->id }}">
                                 Delete
                             </button>
-                            @include('dashboard.category.delete')
+                            @include('dashboard.categories.delete')
                         </td>
                     </tr>
                 @empty

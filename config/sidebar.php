@@ -16,6 +16,13 @@ return [
         'active'=>'categories.*',
         'badge'=> 'new',
     ],
+    [
+        'icon'=>'fas fa-tags nav-icon',
+        'route'=>'products.index',
+        'title'=> 'Products',
+        'active'=>'products.*',
+        'badge'=> 'new',
+    ],
 
 
 

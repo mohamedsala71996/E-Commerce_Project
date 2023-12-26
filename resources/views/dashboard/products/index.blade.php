@@ -3,12 +3,17 @@
 @section('styles')
 @endsection
 
-@section('title', 'Categories')
+@section('title', 'Products')
 
 
 
 @section('content')
 <div class="container ">
+
+    <div class="mb-3">
+        <a href="{{ route('products.create') }}" class="btn btn-success">Create</a>
+        {{-- <a href="{{ route('products.trashes') }}" class="btn btn-danger">view trashes</a> --}}
+    </div>
 
     <form action="{{ url()->current() }}" method="GET" class="mb-3">
         @csrf
@@ -34,39 +39,38 @@
                 <tr class="text-center">
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Parent</th>
+                    <th>Store</th>
+                    <th>Category</th>
+                    <th>Price</th>
                     <th>Status</th>
-                    <th>Image</th>
-                    <th>Deleted At</th>
+                    <th>Created At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($categories as $category)
+                @forelse($products as $product)
                     <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
-                        <td class="align-middle {{ $category->status === 'active' ? 'text-success' : 'text-danger' }}">
-                            {{ $category->status }}
-                        </td>                        <td class="align-middle">
-                            <img src="{{ asset("storage/$category->image") }}"
-                                alt="{{ $category->name . ' photo not exist' }}"  height="50"
-                                width="50">
-                        </td>
-                        <td>{{ $category->deleted_at->format('Y-m-d H:i:s') }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->store->name }}</td>
+                        <td>{{ $product->category->name }}</td>
+                        <td>{{ $product->price }}</td>
+                        <td class="align-middle {{ $product->status === 'active' ? 'text-success' : ($product->status === 'archived' ? 'text-danger' : 'text-warning') }}">
+                            {{ $product->status }}
+                        </td>                                     
+                        <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
                         <td>
-                            <a href="{{ route('categories.restoreTrashes', $category->id) }}" class="btn btn-sm btn-success">restore</a>
+                            <a href="{{ route('categories.edit', $product->id) }}" class="btn btn-sm btn-success">Edit</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                data-target="#deleteModal{{ $category->id }}">
+                                data-target="#deleteModal{{ $product->id }}">
                                 Delete
                             </button>
-                            @include('dashboard.category.delete')
+                            {{-- @include('dashboard.products.delete') --}}
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center">No categories defined.</td>
+                        <td colspan="7" class="text-center">No products defined.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -74,7 +78,7 @@
     </div>
 
     <div class="d-flex justify-content-center">
-        {{ $categories->withQueryString()->links() }}
+        {{ $products->withQueryString()->links() }}
 
     </div>
 </div>
