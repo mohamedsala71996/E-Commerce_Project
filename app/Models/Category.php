@@ -19,10 +19,10 @@ class Category extends Model
         'slug',
         'image'
     ];
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, "parent_id");
-    }
+    // public function parent()
+    // {
+    //     return $this->belongsTo(Category::class, "parent_id");
+    // }
     public function scopeFilter(Builder $builder, $filters)
     {
         if ($filters->name) {
@@ -32,4 +32,11 @@ class Category extends Model
             $builder->where('status', $filters['status']);
         }
     }
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }

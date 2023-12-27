@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
+use App\Models\Product;
 use App\Traits\FileDeletionTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -25,7 +26,22 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-        $categories = Category::Filter($request)->paginate(10);
+
+        // SELECT a.*, b.name as parent_name FROM categories as a
+        // LEFT JOIN cateories as b ON b.id = a.parent_id
+        
+        $categories = Category::leftJoin('categories as parents' , 'parents.id', '=' , 'categories.parent_id')
+        ->select([
+                'categories.*',
+                'parents.name as parent_name'
+
+            ])
+        ->withCount('products')
+        // ->withCount(['products' => function ($query) {
+        //     $query->where('status', 'active');
+        // }])
+        ->Filter($request)->paginate(10);
+
         return view("dashboard.categories.index", compact("categories"));
     }
 
@@ -53,7 +69,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        //
+       return view("dashboard.categories.show", compact("category"));
     }
 
     public function edit($CategoryId)

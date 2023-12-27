@@ -33,6 +33,7 @@
             </div>
         </div>
     </form>
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -41,7 +42,8 @@
                     <th>Name</th>
                     <th>Parent</th>
                     <th>Status</th>
-                    <th>Image</th>
+                    {{-- <th>Image</th> --}}
+                    <th>count of active products</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
@@ -50,16 +52,18 @@
                 @forelse($categories as $category)
                     <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
+                        <td><a href="{{ route('categories.show', $category->id) }}" >{{ $category->name }}</a></td>
+                        {{-- <td>{{ $category->parent_id ? $category->parent->name : '-' }}</td> --}}
+                        <td>{{ $category->parent_name ? $category->parent_name : '-' }}</td>
                         <td class="align-middle {{ $category->status === 'active' ? 'text-success' : 'text-danger' }}">
                             {{ $category->status }}
                         </td>                   
-                        <td class="align-middle">
+                        {{-- <td class="align-middle">
                             <img src="{{ asset("storage/$category->image") }}"
                                 alt="{{ $category->name . ' photo not exist' }}"  height="50"
                                 width="50">
-                        </td>
+                        </td> --}}
+                        <td>{{ $category->products_count}}</td>
                         <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
                         <td>
                             <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-success">Edit</a>
@@ -77,7 +81,6 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
 
     <div class="d-flex justify-content-center">
         {{ $categories->withQueryString()->links() }}

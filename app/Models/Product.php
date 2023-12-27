@@ -14,11 +14,11 @@ class Product extends Model
 
     public function store()
     {
-        return $this->belongsTo(Store::class, "store_id");
+        return $this->belongsTo(Store::class);
     }
     public function category()
     {
-        return $this->belongsTo(Category::class, "category_id");
+        return $this->belongsTo(Category::class)->withDefault(['name'=>'-']);
     }
 
     protected static function booted()
