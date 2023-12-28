@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ProfileController;
 
 Route::middleware(['auth','verified'])->group(function () {
 
@@ -12,6 +13,11 @@ Route::middleware(['auth','verified'])->group(function () {
 
     // products
     Route::resource('dashboard/products', ProductController::class);
+
+    // profile
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
 
 
 });

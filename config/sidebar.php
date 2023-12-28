@@ -23,6 +23,13 @@ return [
         'active'=>'products.*',
         'badge'=> 'new',
     ],
+    [
+        'icon'=>'fas fa-tags nav-icon',
+        'route'=>'profile.edit',
+        'title'=> 'Profile',
+        'active'=>'profiles.*',
+        'badge'=> 'new',
+    ],
 
 
 

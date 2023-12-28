@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('postal_code')->nullable();
-            $table->char('country', 2);
-            $table->char('locale', 2)->default('en');
+            $table->string('country');
+            $table->string('locale')->default('en');
+            $table->string('phone_number')->nullable()->unique();
             $table->timestamps();
 
             $table->primary('user_id');
@@ -34,6 +35,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
         Schema::dropIfExists('profiles');
     }
 };
