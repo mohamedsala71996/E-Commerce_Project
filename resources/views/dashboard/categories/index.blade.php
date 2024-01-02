@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('styles')
-@endsection
+@push('styles')
+@endpush
 
 @section('title', 'Categories')
 
@@ -90,5 +90,5 @@
 
 @endsection
 
-@section('scripts')
-@endsection
+@push('scripts')
+@endpush

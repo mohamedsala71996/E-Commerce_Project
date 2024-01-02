@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained('stores', 'id')->cascadeOnDelete();
+            $table->foreignId('store_id')->nullable()->constrained('stores', 'id')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories', 'id')->nullOnDelete();
             $table->string('name')->unique();
             $table->string('slug')->unique();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->float('rating')->default(0);
             $table->boolean('featured')->default(0);
             $table->enum('status', ['active', 'archived','draft'])->default('active');
-            $table->softDeletes(); 
+            // $table->softDeletes(); 
             $table->timestamps();
         });
     }

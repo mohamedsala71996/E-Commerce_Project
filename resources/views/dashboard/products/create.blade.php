@@ -6,10 +6,10 @@
 @section('content')
 <div class="container">
 
-<form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     
-    @include('dashboard.category._form')
+    @include('dashboard.products._form')
 </form>
 </div>
 @endsection

@@ -4,8 +4,9 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
 
-trait FileDeletionTrait
+trait FileMethods
 {
+   
 
     public function deleteFile($filePath)
     {
@@ -13,4 +14,6 @@ trait FileDeletionTrait
             Storage::disk('public')->delete($filePath);
         }
     }
+
+
 }

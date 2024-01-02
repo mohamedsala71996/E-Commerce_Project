@@ -6,17 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
-use App\Models\Product;
-use App\Traits\FileDeletionTrait;
+use App\Traits\FileMethods;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 
 
 class CategoryController extends Controller
 {
-    use FileDeletionTrait;
+    use FileMethods;
 
     private CategoryRepositoryInterface $categoryRepository;
 

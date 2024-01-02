@@ -10,7 +10,17 @@ class Product extends Model
 {
     use HasFactory;
 
-
+    protected $fillable = [
+        'name',
+        'description',
+        'category_id',
+        'store_id',
+        'status',
+        'slug',
+        'image',
+        'price',
+        'compare_price',
+    ];
 
     public function store()
     {
@@ -19,6 +29,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault(['name'=>'-']);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     protected static function booted()
@@ -30,6 +45,8 @@ class Product extends Model
             }
         });
     }
+
+
     // protected static function boot()
     // {
     //     parent::boot();

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('styles')
-@endsection
+@push('styles')
+@endpush
 
 @section('title', 'Products')
 
@@ -33,6 +33,8 @@
             </div>
         </div>
     </form>
+</div>
+
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -52,7 +54,7 @@
                     <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->store->name }}</td>
+                        <td>{{ $product->store->name ?? '-'}}</td>
                         <td>{{ $product->category->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td class="align-middle {{ $product->status === 'active' ? 'text-success' : ($product->status === 'archived' ? 'text-danger' : 'text-warning') }}">
@@ -60,12 +62,12 @@
                         </td>                                     
                         <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
                         <td>
-                            <a href="{{ route('categories.edit', $product->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-success">Edit</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                 data-target="#deleteModal{{ $product->id }}">
                                 Delete
                             </button>
-                            {{-- @include('dashboard.products.delete') --}}
+                            @include('dashboard.products.delete')
                         </td>
                     </tr>
                 @empty
@@ -75,7 +77,7 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
+
 
     <div class="d-flex justify-content-center">
         {{ $products->withQueryString()->links() }}
@@ -85,5 +87,5 @@
 
 @endsection
 
-@section('scripts')
-@endsection
+@push('scripts')
+@endpush
