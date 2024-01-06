@@ -3,7 +3,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth','verified','checkType'])->group(function () {
 
     // categouries
     Route::resource('dashboard/categories', CategoryController::class);

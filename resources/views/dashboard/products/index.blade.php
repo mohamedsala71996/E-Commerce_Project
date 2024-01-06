@@ -14,7 +14,7 @@
         <a href="{{ route('products.create') }}" class="btn btn-success">Create</a>
         {{-- <a href="{{ route('products.trashes') }}" class="btn btn-danger">view trashes</a> --}}
     </div>
-
+{{-- 
     <form action="{{ url()->current() }}" method="GET" class="mb-3">
         @csrf
         <div class="row">
@@ -32,7 +32,7 @@
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
-    </form>
+    </form> --}}
 </div>
 
     <div class="table-responsive">

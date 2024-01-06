@@ -40,10 +40,33 @@ class Product extends Model
     {
 
         static::addGlobalScope('store', function (Builder $builder) {
-            if ($user = auth()->user()->store_id) {
-                $builder->where('store_id', $user);
+            $user=auth()->user();
+            if ($user && $user->user_id) {
+                $builder->where('store_id',$user->user_id);
             }
         });
+    }
+
+    public function scopeActive(Builder $builder)
+    {
+            $builder->where('status','active');
+    }
+
+    public function getImageUrlAttribute() 
+    {
+        return 'https://www.mobismea.com/upload/iblock/2a0/2f5hleoupzrnz9o3b8elnbv82hxfh4ld/No%20Product%20Image%20Available.png';
+    }
+
+    public function getDiscountPercentAttribute() 
+    {
+       
+        if ($this->compare_price) {
+           return (($this->compare_price-$this->price)/$this->compare_price)*100;
+        }else{
+            return '';
+        }
+    
+        
     }
 
 
