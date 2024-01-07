@@ -80,16 +80,13 @@
                                         </select>
                                     </div>
                                 </div>
+                                <form action="{{ route('carts.store') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="form-group quantity">
                                         <label for="color">Quantity</label>
-                                        <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                        <input type="number" name='quantity' class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +94,10 @@
                                 <div class="row align-items-end">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="button cart-button">
-                                            <button class="btn" style="width: 100%;">Add to Cart</button>
+                                            <button class="btn" type="submit" style="width: 100%;">Add to Cart</button>
                                         </div>
                                     </div>
+                                </form>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="wish-button">
                                             <button class="btn"><i class="lni lni-reload"></i> Compare</button>

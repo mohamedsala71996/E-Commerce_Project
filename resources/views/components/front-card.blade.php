@@ -8,10 +8,10 @@
         @if ($product->discount_percent)
             <span class="sale-tag">-{{ number_format($product->discount_percent, 2, '.', ',') }}%</span>
         @endif
-        <div class="button">
-            <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to
+        {{-- <div class="button">
+            <a href="{{ route('carts.store',$product->id) }}" class="btn"><i class="lni lni-cart"></i> Add to
                 Cart</a>
-        </div>
+        </div> --}}
     </div>
     <div class="product-info">
         <span class="category">{{ $product->category->name }}</span>
