@@ -16,6 +16,8 @@ class currencyFormat{
     }
     return  $formatter->formatCurrency($amount,$currency);
   }
+
+
 }
 
 

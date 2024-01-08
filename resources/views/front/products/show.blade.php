@@ -86,7 +86,7 @@
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="form-group quantity">
                                         <label for="color">Quantity</label>
-                                        <input type="number" name='quantity' class="form-control">
+                                        <input type="number" name='quantity' value='1' class="form-control">
                                     </div>
                                 </div>
                             </div>

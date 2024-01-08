@@ -41,7 +41,7 @@
                                 <p>Subtotal</p>
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
-                                <p>Discount</p>
+                                <p>Price</p>
                             </div>
                             <div class="col-lg-1 col-md-2 col-12">
                                 <p>Remove</p>
@@ -58,8 +58,8 @@
                                 <a href="product-details.html"><img src="{{$item->product->image ? asset("storage/".$item->product->image) : $item->product->ImageUrl }}" alt="#"></a>
                             </div>
                             <div class="col-lg-4 col-md-3 col-12">
-                                <h5 class="product-name"><a href="product-details.html">
-                                        Canon EOS M50 Mirrorless Camera</a></h5>
+                                <h5 class="product-name"><a href="{{ route('product.show',$item->product->slug) }}">
+                                       {{ $item->product->name }}</a></h5>
                                 <p class="product-des">
                                     <span><em>Type:</em> Mirrorless</span>
                                     <span><em>Color:</em> Black</span>
@@ -71,10 +71,10 @@
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
-                                <p>$910.00</p>
+                                <p>{{ currencyFormat::Format($item->product->price * $item->quantity) }}</p>
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
-                                <p>$29.00</p>
+                                <p>{{ currencyFormat::Format($item->product->price) }}</p>
                             </div>
                             <div class="col-lg-1 col-md-2 col-12">
                                 <a class="remove-item" href="javascript:void(0)"><i class="lni lni-close"></i></a>

@@ -32,6 +32,10 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'product_id' => 'required|exists:products,id', 
+            'quantity' => 'required|integer|min:1', 
+        ]);
         $this->cartRepository->add($request->product_id,$request->quantity);
         return redirect()->route('carts.index');
     }

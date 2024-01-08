@@ -12,6 +12,16 @@
             <a href="{{ route('carts.store',$product->id) }}" class="btn"><i class="lni lni-cart"></i> Add to
                 Cart</a>
         </div> --}}
+        <form action="{{ route('carts.store') }}" method="POST">
+            @csrf
+            <div class="button">
+                <button type="submit" class="btn"><i class="lni lni-cart"></i> Add to Cart</button>
+            </div>
+            <!-- Hidden input for quantity -->
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+        </form>
+        
     </div>
     <div class="product-info">
         <span class="category">{{ $product->category->name }}</span>

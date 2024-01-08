@@ -19,12 +19,24 @@ class CartRepository implements CartRepositoryInterface
 
     }
     public function add($product_id,$quantity=1){
-     return Cart::create([
-        'cookie_id'=>$this->getCookieId(),
-        'user_id'=>Auth::id(),
-        'product_id'=>$product_id,
-        'quantity'=>$quantity,
-      ]);
+
+      $item=Cart::where('cookie_id',$this->getCookieId())
+      ->where('product_id',$product_id)->first();
+      if (!$item) {
+        return Cart::create([
+              'cookie_id'=>$this->getCookieId(),
+              'user_id'=>Auth::id(),
+              'product_id'=>$product_id,
+              'quantity'=>$quantity,
+            ]);
+      }
+
+    //  return Cart::updateOrCreate(['cookie_id'=>$this->getCookieId(),'product_id'=>$product_id],[
+    //     // 'cookie_id'=>$this->getCookieId(),
+    //     'user_id'=>Auth::id(),
+    //     // 'product_id'=>$product_id,
+    //     'quantity'=>$quantity,
+    //   ]);
 
     }
 
