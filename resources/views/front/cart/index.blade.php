@@ -1,4 +1,4 @@
-<x-front-layout  title='Cart'>
+<x-front-layout title='Cart'>
     <x-slot name='breadcrumbs'>
         <!-- Start Breadcrumbs -->
         <div class="breadcrumbs">
@@ -21,45 +21,48 @@
         <!-- End Breadcrumbs -->
     </x-slot>
 
-        <!-- Shopping Cart -->
-        <div class="shopping-cart section">
-            <div class="container">
-                <div class="cart-list-head">
-                    <!-- Cart List Title -->
-                    <div class="cart-list-title">
-                        <div class="row">
-                            <div class="col-lg-1 col-md-1 col-12">
-    
-                            </div>
-                            <div class="col-lg-4 col-md-3 col-12">
-                                <p>Product Name</p>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-12">
-                                <p>Quantity</p>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-12">
-                                <p>Subtotal</p>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-12">
-                                <p>Price</p>
-                            </div>
-                            <div class="col-lg-1 col-md-2 col-12">
-                                <p>Remove</p>
-                            </div>
+    <!-- Shopping Cart -->
+    <div class="shopping-cart section">
+        <div class="container">
+            <div class="cart-list-head">
+                <!-- Cart List Title -->
+                <div class="cart-list-title">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-12">
+
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-12">
+                            <p>Product Name</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <p>Quantity</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <p>Subtotal</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <p>Price</p>
+                        </div>
+                        <div class="col-lg-1 col-md-2 col-12">
+                            <p>Remove</p>
                         </div>
                     </div>
-                    <!-- End Cart List Title -->
-                        
-                    <!-- Cart Single List list -->
-                    @foreach ($items as $item)
-                    <div class="cart-single-list">
+                </div>
+                <!-- End Cart List Title -->
+
+                <!-- Cart Single List list -->
+                @forelse ($items as $item)
+                    <div class="cart-single-list" id="{{ $item->id }}">
                         <div class="row align-items-center">
                             <div class="col-lg-1 col-md-1 col-12">
-                                <a href="product-details.html"><img src="{{$item->product->image ? asset("storage/".$item->product->image) : $item->product->ImageUrl }}" alt="#"></a>
+                                <a href="{{ route('product.show', $item->product->slug) }}"><img
+                                        src="{{ $item->product->image ? asset('storage/' . $item->product->image) : $item->product->ImageUrl }}"
+                                        alt="#"></a>
                             </div>
                             <div class="col-lg-4 col-md-3 col-12">
-                                <h5 class="product-name"><a href="{{ route('product.show',$item->product->slug) }}">
-                                       {{ $item->product->name }}</a></h5>
+                                <h5 class="product-name"><a
+                                        href="{{ route('product.show', $item->product->slug) }}">{{ $item->product->name }}</a>
+                                </h5>
                                 <p class="product-des">
                                     <span><em>Type:</em> Mirrorless</span>
                                     <span><em>Color:</em> Black</span>
@@ -67,7 +70,8 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
                                 <div class="count-input">
-                                    <input type="number" name='quantity' value="{{ $item->quantity }}" class="form-control">
+                                    <input type="number" class="form-control item-quantity" data-id="{{ $item->id }}"
+                                        value="{{ $item->quantity }}">
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
@@ -77,53 +81,111 @@
                                 <p>{{ currencyFormat::Format($item->product->price) }}</p>
                             </div>
                             <div class="col-lg-1 col-md-2 col-12">
-                                <a class="remove-item" href="javascript:void(0)"><i class="lni lni-close"></i></a>
+                                <a class="remove-item" data-id="{{ $item->id }}" href="javascript:void(0)"><i class="lni lni-close"></i></a>
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                @empty
+                    <div class="text-center mt-5">
+                        <p>No items in the cart.</p>
+                    </div>
+                @endforelse
+                <!-- End Single List list -->
 
-                    <!-- End Single List list -->
 
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Total Amount -->
-                        <div class="total-amount">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-6 col-12">
-                                    <div class="left">
-                                        <div class="coupon">
-                                            <form action="#" target="_blank">
-                                                <input name="Coupon" placeholder="Enter Your Coupon">
-                                                <div class="button">
-                                                    <button class="btn">Apply Coupon</button>
-                                                </div>
-                                            </form>
-                                        </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6 col-12">
+                                <div class="left">
+                                    <div class="coupon">
+                                        <form action="#" target="_blank">
+                                            <input name="Coupon" placeholder="Enter Your Coupon">
+                                            <div class="button">
+                                                <button class="btn">Apply Coupon</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="right">
-                                        <ul>
-                                            <li>Cart Subtotal<span>$2560.00</span></li>
-                                            <li>Shipping<span>Free</span></li>
-                                            <li>You Save<span>$29.00</span></li>
-                                            <li class="last">You Pay<span>$2531.00</span></li>
-                                        </ul>
-                                        <div class="button">
-                                            <a href="checkout.html" class="btn">Checkout</a>
-                                            <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
-                                        </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="right">
+                                    <ul>
+                                        <li>Cart Subtotal<span>{{ currencyFormat::Format($total) }}</span></li>
+                                        <li>Shipping<span>Free</span></li>
+                                        <li>You Save<span>$29.00</span></li>
+                                        <li class="last">You Pay<span>$2531.00</span></li>
+                                    </ul>
+                                    <div class="button">
+                                        <a href="checkout.html" class="btn">Checkout</a>
+                                        <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--/ End Total Amount -->
                     </div>
+                    <!--/ End Total Amount -->
                 </div>
             </div>
         </div>
-        <!--/ End Shopping Cart -->
+    </div>
+    <!--/ End Shopping Cart -->
 
-</x-front-layout >
+    @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            const csrf_token = "{{ csrf_token() }}";
+
+            (function($) {
+
+                $('.item-quantity').on('change', function(e) {
+
+                    $.ajax({
+                        url: "/carts/" + $(this).data('id'), //data-id
+                        method: 'put',
+                        data: {
+                            quantity: $(this).val(),
+                            _token: csrf_token
+                        }
+                    });
+                });
+
+                $('.remove-item').on('click', function(e) {
+
+                    let id = $(this).data('id');
+                    $.ajax({
+                        url: "/carts/" + id, //data-id
+                        method: 'delete',
+                        data: {
+                            _token: csrf_token
+                        },
+                        success: response => {
+                            $(`#${id}`).remove();
+                        }
+                    });
+                });
+
+                $('.add-to-cart').on('click', function(e) {
+
+                    $.ajax({
+                        url: "/cart",
+                        method: 'post',
+                        data: {
+                            product_id: $(this).data('id'),
+                            quantity: $(this).data('quantity'),
+                            _token: csrf_token
+                        },
+                        success: response => {
+                            alert('product added')
+                        }
+                    });
+                });
+
+            })(jQuery);
+        </script>
+    @endpush
+
+</x-front-layout>
