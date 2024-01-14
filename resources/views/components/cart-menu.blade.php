@@ -35,7 +35,7 @@
                 <span class="total-amount">{{ currencyFormat::Format($total) }}</span>
             </div>
             <div class="button">
-                <a href="checkout.html" class="btn animate">Checkout</a>
+                <a href="{{ route('checkout.create') }}" class="btn animate">Checkout</a>
             </div>
         </div>
     </div>

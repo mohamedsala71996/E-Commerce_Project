@@ -21,11 +21,15 @@ class OrderAddress extends Model
         'state',
         'country',
     ];
+    protected $table = 'orderr_addresses'; 
+    public $timestamps=false;
 
     // Relationships
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
+
+    
 
 }

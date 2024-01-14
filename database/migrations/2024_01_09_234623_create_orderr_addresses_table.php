@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_addresses', function (Blueprint $table) {
+        Schema::create('orderr_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')
+            $table->foreignId('order_id')->constrained('orderrs')
             ->cascadeOnDelete();
             $table->enum('type', ['billing', 'shipping']);
             $table->string('first_name');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('state')->nullable();
             $table->string('country');   
-            $table->timestamps();
         });
     }
 

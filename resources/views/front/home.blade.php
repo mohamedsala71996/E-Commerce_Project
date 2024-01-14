@@ -1,7 +1,7 @@
 <x-front-layout>
 
 
-    {{-- <x-slot name='breadcrumbs'>
+    <x-slot name='breadcrumbs'>
         <!-- Start Breadcrumbs -->
         <div class="breadcrumbs">
             <div class="container">
@@ -14,15 +14,23 @@
                     <div class="col-lg-6 col-md-6 col-12">
                         <ul class="breadcrumb-nav">
                             <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
-                            <li>login</li>
+                            {{-- <li>login</li> --}}
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Breadcrumbs -->
-    </x-slot> --}}
-
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    
+    </x-slot>
 
 
     <!-- Start Hero Area -->

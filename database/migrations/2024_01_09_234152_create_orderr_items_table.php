@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('orderr_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+            $table->foreignId('order_id')->constrained('orderrs')->cascadeOnDelete();
             $table->foreignId('product_id')->nullable()
                 ->constrained('products')
                 ->nullOnDelete();
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->float('price');
             $table->unsignedSmallInteger('quantity')->default(1);
             $table->json('options')->nullable();
-            $table->timestamps();
         });
     }
 
