@@ -8,9 +8,9 @@
 
 
 @section('content')
-<div class="container ">
+{{-- <div class="container "> --}}
 
-    <div class="mb-3">
+    <div class="mb-4">
         <a href="{{ route('products.create') }}" class="btn btn-success">Create</a>
         {{-- <a href="{{ route('products.trashes') }}" class="btn btn-danger">view trashes</a> --}}
     </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
     </form> --}}
-</div>
+{{-- </div> --}}
 
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -44,6 +44,7 @@
                     <th>Store</th>
                     <th>Category</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Status</th>
                     <th>Created At</th>
                     <th>Actions</th>
@@ -57,6 +58,7 @@
                         <td>{{ $product->store->name ?? '-'}}</td>
                         <td>{{ $product->category->name }}</td>
                         <td>{{ $product->price }}</td>
+                        <td>{{ $product->quantity }}</td>
                         <td class="align-middle {{ $product->status === 'active' ? 'text-success' : ($product->status === 'archived' ? 'text-danger' : 'text-warning') }}">
                             {{ $product->status }}
                         </td>                                     

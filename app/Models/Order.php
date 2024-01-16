@@ -35,7 +35,7 @@ class Order extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class,'orderr_items')->using(OrderItem::class)->withPivot('product_name','price','quantity','options');
+        return $this->belongsToMany(Product::class,'orderr_items')->using(OrderItem::class)->as('order_items')->withPivot('product_name','price','quantity','options');
         // return $this->belongsToMany(Product::class,'order_items','order_id','product_id','id','id');
     }
 
@@ -48,11 +48,11 @@ class Order extends Model
     public function billing()
     {
         // return $this->addresses()->where('type','billing'); // return collection
-        return $this->hasOne(OrderAddress::class.'order_id')->where('type','billing'); // return one 
+        return $this->hasOne(OrderAddress::class,'order_id')->where('type','billing'); // return one 
     }
     public function shipping()
     {
-        return $this->hasOne(OrderAddress::class.'order_id')->where('type','shipping');
+        return $this->hasOne(OrderAddress::class,'order_id')->where('type','shipping');
     }
 
 

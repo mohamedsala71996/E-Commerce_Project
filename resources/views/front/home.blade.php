@@ -248,7 +248,9 @@
             <div class="row">
                 @foreach ($products as $product)
                 <div class="col-lg-3 col-md-6 col-12">
+                    @if ($product->quantity!=0)
                     <x-front-card :product="$product"/> 
+                    @endif
                 </div>
                 @endforeach
 
@@ -784,7 +786,10 @@
         </div>
     </section>
     <!-- End Shipping Info -->
+@push('styles')
 
+
+@endpush
 @push('scripts')
 <script type="text/javascript">
     //========= Hero Slider 
@@ -858,7 +863,7 @@
     timer();
     setInterval(timer, 1000);
 </script>
-    
+
 @endpush
 
 </x-front-layout>

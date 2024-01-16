@@ -25,6 +25,13 @@
 </div>
 
 <div class="form-group">
+    <x-forms.label for='Quantity' value='quantity' />
+    <x-forms.input type='number' name='quantity' :value="$product->quantity"
+        class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" required />
+    <x-forms.errorMessage name='quantity' message='message' />
+</div>
+
+<div class="form-group">
     <x-forms.label for='description' value='Description' />
     <x-forms.textarea class="form-control" id='description' rows="3" name="description" :value="$product->description" />
 </div>

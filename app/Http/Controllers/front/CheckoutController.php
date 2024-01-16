@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CartRepositoryInterface;
 use App\Models\Order;
@@ -50,7 +51,9 @@ class CheckoutController extends Controller
                 $order->addresses()->create($data);
             }
         }
-        $cart->empty();
+        // $cart->empty();
+        // event('order.created');
+        event(new OrderCreated($order));
 
         DB::commit();
     } catch (\Exception $e) {
