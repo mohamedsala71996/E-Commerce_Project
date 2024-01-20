@@ -2,6 +2,7 @@
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth','verified','checkType'])->group(function () {
 
@@ -18,6 +19,7 @@ Route::middleware(['auth','verified','checkType'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::get('/mark-as-read/{id}',  [NotificationController::class, 'markAsRead'])->name('markAsRead');
 
 
 });

@@ -22,13 +22,10 @@
         </div>
         <!-- End Breadcrumbs -->
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success">
             {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
-    @endif
+        @endif
     
     </x-slot>
 
@@ -248,9 +245,7 @@
             <div class="row">
                 @foreach ($products as $product)
                 <div class="col-lg-3 col-md-6 col-12">
-                    @if ($product->quantity!=0)
                     <x-front-card :product="$product"/> 
-                    @endif
                 </div>
                 @endforeach
 

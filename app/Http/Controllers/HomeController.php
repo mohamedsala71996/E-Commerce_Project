@@ -10,7 +10,7 @@ class HomeController extends Controller
     
     public function index() 
     {
-        $products=Product::active()->with(["store", "category"])->latest()->limit(5)->get();
+        $products=Product::active()->with(["store", "category"])->where('quantity','!=',0)->latest()->limit(10)->get();
        return view('front.home',compact('products'));
     }
 }

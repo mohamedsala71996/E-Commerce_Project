@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CheckoutRequest;
 use App\Interfaces\CartRepositoryInterface;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -22,7 +23,7 @@ class CheckoutController extends Controller
     return view('front.orders.show',compact('cart','countries'));
   }
 
-  public  function store(Request $request,CartRepositoryInterface $cart){
+  public  function store(CheckoutRequest $request,CartRepositoryInterface $cart){
 
     DB::beginTransaction();
 
@@ -32,7 +33,7 @@ class CheckoutController extends Controller
         foreach ($cartItems as $store_id => $items) {
             $order = Order::create([
                 'store_id' => $store_id,
-                'user_id' => Auth::id(),
+                'user_id' => Auth::id() ?? 1,
                 'payment_method' => 'cod',
             ]);
 
