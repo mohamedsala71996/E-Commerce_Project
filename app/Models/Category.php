@@ -25,11 +25,11 @@ class Category extends Model
     // }
     public function scopeFilter(Builder $builder, $filters)
     {
-        if ($filters->name) {
-            $builder->where('name', 'LIKE', "%{$filters['name']}%");
+        if (isset($filters['name'])) {
+            $builder->where('categories.name', 'LIKE', "%{$filters['name']}%");
         }
-        if ($filters->status) {
-            $builder->where('status', $filters['status']);
+        if (isset($filters['status'])) {
+            $builder->where('categories.status', $filters['status']);
         }
     }
 

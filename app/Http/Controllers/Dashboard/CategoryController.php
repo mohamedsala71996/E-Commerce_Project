@@ -38,8 +38,8 @@ class CategoryController extends Controller
         // ->withCount(['products' => function ($query) {
         //     $query->where('status', 'active');
         // }])
-        ->Filter($request)->paginate(10);
-
+        ->Filter($request->query())
+        ->paginate(10);
         return view("dashboard.categories.index", compact("categories"));
     }
 
@@ -128,6 +128,7 @@ class CategoryController extends Controller
 
         $this->categoryRepository->restoreTrashesCategory($CategoryId);
         return redirect()->back()->with("success", "Data restored successfully");
+        
 
     }
 
