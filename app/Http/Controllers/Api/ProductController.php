@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return Product::filter()->paginate();
+        return Product::filter($request->query())->get();
     }
 
     /**

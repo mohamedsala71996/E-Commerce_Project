@@ -22,6 +22,11 @@ class Product extends Model
         'compare_price',
     ];
 
+    protected $hidden=[
+        'created_at',
+        'updated_at',
+    ];
+
     public function store()
     {
         return $this->belongsTo(Store::class);
@@ -68,7 +73,46 @@ class Product extends Model
     
         
     }
+    public function scopeFilter(Builder $builder,$filter)
+    {
+      $options= array_merge([
+            'status' => null,
+            'category_id' => null,
+          'store_id' => null,
+          'tag_id' => null,
+        ],$filter);
 
+        $builder->when($options['status'], function ($builder, $status) {
+            $builder->where('status', $status);
+        });
+        $builder->when($options['category_id'], function ($builder, $category_id) {
+            $builder->where('category_id', $category_id);
+        });
+        $builder->when($options['store_id'], function ($builder, $store_id) {
+            $builder->where('store_id', $store_id);
+        });
+        $builder->when($options['tag_id'], function ($builder, $tag_id) {
+
+            // $builder->whereExists(function ($builder)use ($tag_id){
+
+            //     $builder->select(1)
+            //     ->from('product_tag')
+            //     ->whereRaw('products.id = product_id')
+            //     ->where('tag_id','=',$tag_id);
+
+            // });
+
+            // $builder->whereRaw('id IN (SELECT product_id FROM product_tag WHERE tag_id = ?)', [$value]); //less performance
+            // --------------------------------------------------------------
+            // $builder->whereRaw('EXISTS (SELECT 1 FROM product_tag WHERE tag_id = ? AND product_id = products.id)', [$value]); //more performance
+            // --------------------------------------------------------------
+            $builder->whereHas('tags', function ($query) use ($tag_id) {
+                $query->whereIn('id', $tag_id);
+            }); //less performance
+        });
+
+
+    }
 
     // protected static function boot()
     // {
