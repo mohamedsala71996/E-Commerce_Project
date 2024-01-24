@@ -4,7 +4,7 @@
 <!-- Start Single Product -->
 <div class="single-product">
     <div class="product-image">
-            <img src="{{$product->image ? asset("storage/$product->image") : $product->ImageUrl }}" alt="#">
+        <img src="{{ $product->ImageUrl }}" alt="#" style="width: 400px; height: 400px;">
         @if ($product->discount_percent)
             <span class="sale-tag">-{{ number_format($product->discount_percent, 2, '.', ',') }}%</span>
         @endif

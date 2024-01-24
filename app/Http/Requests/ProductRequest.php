@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
-            'compare_price' => 'nullable|numeric|min:0',
+            'compare_price' => 'nullable|numeric|gt:price', //greater than price
             'options' => 'nullable|json',
             'rating' => 'numeric|min:0|max:5',
             'featured' => 'boolean',

@@ -30,7 +30,7 @@
                         <div class="product-images">
                             <main id="gallery">
                                 <div class="main-img">
-                                    <img src="{{$product->image ? asset("storage/$product->image") : $product->ImageUrl }}" alt="#">
+                                    <img src="{{$product->ImageUrl }}" alt="#">
                                 </div>
                                 <div class="images">
                                     <img src="https://via.placeholder.com/1000x670" class="img" alt="#">

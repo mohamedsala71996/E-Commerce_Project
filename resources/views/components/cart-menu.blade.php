@@ -16,7 +16,7 @@
                         class="lni lni-close"></i></a> --}}
                 <div class="cart-img-head">
                     <a class="cart-img" href="{{ route('product.show', $item->product->slug) }}"><img
-                            src="{{ $item->product->image ? asset('storage/' . $item->product->image) : $item->product->ImageUrl }}" alt="#"></a>
+                            src="{{$item->product->ImageUrl }}" alt="#"></a>
                 </div>
 
                 <div class="content">
