@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- /End Preloader -->
-
+<div class="container"></div>
     <!-- Start Header Area -->
     <header class="header navbar-area">
         <!-- Start Topbar -->
@@ -80,28 +80,46 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
-                                <li><a href="index.html">Home</a></li>
+                                {{-- <li><a href="index.html">Home</a></li>
                                 <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="contact.html">Contact Us</a></li> --}}
                             </ul>
                         </div>
                     </div>
+                    @auth("web")
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-end">
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello
+                                {{Auth::guard('web')->user()->name }}
                             </div>
                             <ul class="user-login">
                                 <li>
-                                    <a href="login.html">Sign In</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">Register</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                                    </form>
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    @else
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-end">
+                            <div class="user">
+                                <i class="lni lni-user"></i>
+                            </div>
+                            <ul class="user-login">
+                                <li>
+                                    <a href="{{ route('login') }}">login</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('register') }}">Register</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    @endauth
                 </div>
             </div>
         </div>

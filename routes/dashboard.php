@@ -4,7 +4,7 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\NotificationController;
 
-Route::middleware(['auth','verified','checkType'])->group(function () {
+Route::middleware(['auth:admin,web','verified'])->group(function () {
 
     // categouries
     Route::resource('dashboard/categories', CategoryController::class);

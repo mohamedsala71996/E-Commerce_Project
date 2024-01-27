@@ -8,27 +8,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
-class UserSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        
-            // DB::table('users')->truncate();
-    
-
-            $users = [
+            // DB::table('admins')->truncate();
+            $admins = [
                 [
                     'name' => 'Mohamed Salah',
                     'email' => 'mohamed_sala712@yahoo.com',
+                    'username' => 'mohamedsala712',
                     'password' => Hash::make('123456789'),
-                    'type'=>'admin',
+                    'phone_number' =>'01066943748',
+                    'super_admin'=>false,
+
                 ],
                
             ];
-            DB::table('users')->insert($users);
+            DB::table('admins')->insert($admins);
         }
     }
     
