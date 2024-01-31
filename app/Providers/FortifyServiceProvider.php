@@ -37,10 +37,10 @@ class FortifyServiceProvider extends ServiceProvider
         {
             public function toResponse($request)
             {
-                if ($request->user('web')) {
-                    return redirect()->intended('/');
+                if ($request->is('admin/*')) {
+                    return redirect('/dashboard');
                 }
-                return redirect()->intended('/dashboard');
+                return redirect('/');
             }
         });
     }
@@ -50,6 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Fortify::authenticateUsing( [new AuthenticateUser,'authenticate']);
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);

@@ -95,7 +95,7 @@
                             </div>
                             <ul class="user-login">
                                 <li>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                    <form id="logout-form" action="{{ route('user_logout') }}" method="POST">
                                         @csrf
                                         <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
                                     </form>

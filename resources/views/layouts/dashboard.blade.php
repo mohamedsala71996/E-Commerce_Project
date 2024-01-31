@@ -168,7 +168,7 @@
                                 alt="User Image">
                         </div>
                         <div class="info">
-                            <form action="{{ route('logout') }}" method="post">
+                            <form action="{{ route('admin_logout') }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-primary">Logout</button>
                             </form>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\CustomLogoutController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\ProductController;
@@ -13,9 +14,15 @@ Route::middleware([])->group(function () {
 
     Route::get('/checkout/create', [CheckoutController::class,'create'])->name('checkout.create');
     Route::post('/checkout/store', [CheckoutController::class,'store'])->name('checkout.store');
+    //-------------------------------custom logout--------------------------------
+    Route::post('user/logout', [CustomLogoutController::class, 'user_logout'])->name('user_logout');
 
 
+    Route::get('/twoFactor', function (){
+        return view('front.auth.two-factor-authentication');
+    });
 
+  
 
 });
 
