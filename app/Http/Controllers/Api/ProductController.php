@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Traits\FileMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
@@ -22,6 +23,9 @@ class ProductController extends Controller
     public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
+
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+
     }
 
 
@@ -49,6 +53,10 @@ class ProductController extends Controller
                 'featured' => 'boolean',
                 'status' => 'required|in:active,archived,draft',
             ]);
+            $user=$request->user();
+            if(!$user->tokenCan('products.store')){
+                return response()->json([ 'message' =>'user not allowed'], 403);
+            }
             $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
             $imagePath = $request->file('image') ? $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "Product" . $request->file('image')->getClientOriginalName(), 'public') : '';
             $product = $this->productRepository->createProduct(array_merge($data, ['image' => $imagePath]));
@@ -98,6 +106,10 @@ class ProductController extends Controller
                 'featured' => 'boolean',
                 'status' => 'sometimes|required|in:active,archived,draft',
             ]);
+            $user=$request->user();
+            if(!$user->tokenCan('products.update')){
+                return response()->json([ 'message' =>'user not allowed'], 403);
+            }
             $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
             if ($request->hasFile('image')) {
                 $this->deleteFile($product->image);
@@ -133,6 +145,10 @@ class ProductController extends Controller
     public function destroy(Product $product): JsonResponse
     {
         try {
+            $user=Auth::guard('sanctum')->user();
+            if(!$user->tokenCan('products.destroy')) {
+                return response()->json([ 'message' =>'user not allowed'], 403);
+            }
             $product->delete();
             $this->deleteFile($product->image);
             return response()->json(['message' => 'Data deleted successfully'], 200);
