@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\CustomLogoutController;
+use App\Http\Controllers\front\CurrencyConverterController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,6 +35,10 @@ Route::middleware('auth:admin,web')->group(function () {
 });
     //-------------------------------custom logout--------------------------------
 Route::post('Admin/logout', [CustomLogoutController::class, 'admin_logout'])->name('admin_logout');
+
+    //-------------------------------Currency API--------------------------------
+
+Route::post('CurrencyConverter', [CurrencyConverterController::class, 'store'])->name(  'currencyConverter.store' );
 
 // require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
