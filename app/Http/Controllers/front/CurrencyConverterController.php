@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
+
 class CurrencyConverterController extends Controller
 {
     
    public function store(Request $request)
     {
-
         $request->validate([
             'currency_code' =>'required|string|size:3',
         ]);
@@ -30,16 +30,9 @@ class CurrencyConverterController extends Controller
             Cache::put('currency_code_'. $currency_code_to,$rate,now()->addHour());
 
         }
-        
         // $converter= new CurrencyConverter( $api_key);
         // $rate=$converter->convert($base_currency_from,$currency_code_to);
         // Session::put('currency_rate', $rate);
         return redirect()->back();
-
-
-
-
-
-
     }
 }
