@@ -24,6 +24,11 @@ Welcome to our E-Commerce Multi-Vendor Store project! This project is designed t
   - [Checkout and Orders](#checkout-and-orders)
   - [Events and Listeners](#events-and-listeners)
   - [Mail and Database Notifications](#mail-and-database-notifications)
+  - [Laravel Fortify Multi-Guard Authentication](#laravel-fortify-multi-guard-authentication)
+  - [Custom Authentication and Two-Factor Authentication](#custom-authentication-and-two-factor-authentication)
+  - [Building APIs](#building-apis)
+  - [API Authentication with Laravel Sanctum](#api-authentication-with-laravel-sanctum)
+  - [Currency Converter API](#currency-converter-api)
 
 ## Features
 
@@ -42,6 +47,11 @@ Welcome to our E-Commerce Multi-Vendor Store project! This project is designed t
 - **Checkout and Orders:** Manage the checkout process and handle orders seamlessly.
 - **Events and Listeners:** Implement events and listeners for decoupled workflows.
 - **Mail and Database Notifications:** Keep users informed through email and database notifications.
+- **Laravel Fortify Multi-Guard Authentication:** Implement multi-guard authentication using Laravel Fortify.
+- **Custom Authentication and Two-Factor Authentication:** Customize authentication and implement two-factor authentication for enhanced security.
+- **Building APIs:** Develop APIs to interact with your application programmatically.
+- **API Authentication with Laravel Sanctum:** Secure your APIs with Laravel Sanctum for token-based authentication.
+- **Currency Converter API:** Integrate a currency converter API for dynamic currency conversions.
 
 ## Getting Started
 
