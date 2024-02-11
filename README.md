@@ -29,7 +29,7 @@ Welcome to our E-Commerce Multi-Vendor Store project! This project is designed t
   - [Building APIs](#building-apis)
   - [API Authentication with Laravel Sanctum](#api-authentication-with-laravel-sanctum)
   - [Currency Converter API](#currency-converter-api)
-  - [Mcamera Localization Packag](#Mcamera-Localization-Packag)
+  - [Mcamera Localization Package](#Mcamera-Localization-Package)
 
 ## Features
 
