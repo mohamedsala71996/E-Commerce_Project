@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\CustomLogoutController;
 use App\Http\Controllers\front\CurrencyConverterController;
+use App\Http\Controllers\LocalizationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('auth.login');
 // });
-Route::get('/', [HomeController::class,'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');

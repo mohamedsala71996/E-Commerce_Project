@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>{{$title}}</title>
+    <title>{{ $title }}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- /End Preloader -->
-<div class="container"></div>
+    <div class="container"></div>
     <!-- Start Header Area -->
     <header class="header navbar-area">
         <!-- Start Topbar -->
@@ -51,30 +51,29 @@
                             <ul class="menu-top-link">
                                 <li>
                                     <div class="select-position">
-                                        <form action="{{route('currencyConverter.store')}}" method='post'>
+                                        <form action="{{ route('currencyConverter.store') }}" method='post'>
                                             @csrf
-                                        <select name='currency_code' id="select4" onchange="this.form.submit()">
-                                            <option value="USD" @selected('USD'==session('currency_code'))>$ USD</option>
-                                            <option value="EUR" @selected('EUR'==session('currency_code'))>€ EURO</option>
-                                            <option value="CAD" @selected('CAD'==session('currency_code'))>$ CAD</option>
-                                            <option value="INR" @selected('INR'==session('currency_code'))>₹ INR</option>
-                                            <option value="CNY" @selected('CNY'==session('currency_code'))>¥ CNY</option>
-                                            <option value="BDT" @selected('BDT'==session('currency_code'))>৳ BDT</option>
-                                        </select>
-                                    </form>
+                                            <select name='currency_code' id="select4" onchange="this.form.submit()">
+                                                <option value="USD" @selected('USD' == session('currency_code'))>$ USD</option>
+                                                <option value="EUR" @selected('EUR' == session('currency_code'))>€ EURO</option>
+                                                <option value="CAD" @selected('CAD' == session('currency_code'))>$ CAD</option>
+                                                <option value="INR" @selected('INR' == session('currency_code'))>₹ INR</option>
+                                                <option value="CNY" @selected('CNY' == session('currency_code'))>¥ CNY</option>
+                                                <option value="BDT" @selected('BDT' == session('currency_code'))>৳ BDT</option>
+                                            </select>
+                                        </form>
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="select-position">
-                                        <select id="select5">
-                                            <option value="0" selected>English</option>
-                                            <option value="1">Español</option>
-                                            <option value="2">Filipino</option>
-                                            <option value="3">Français</option>
-                                            <option value="4">العربية</option>
-                                            <option value="5">हिन्दी</option>
-                                            <option value="6">বাংলা</option>
-                                        </select>
+                                    <div>
+                                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                            <a class="btn btn-dark btn-sm" rel="alternate"
+                                                hreflang="{{ $localeCode }}"
+                                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                                {{ $properties['native'] }}
+                                            </a>
+                                        @endforeach
+                                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -89,39 +88,40 @@
                             </ul>
                         </div>
                     </div>
-                    @auth("web")
-                    <div class="col-lg-4 col-md-4 col-12">
-                        <div class="top-end">
-                            <div class="user">
-                                <i class="lni lni-user"></i>
-                                {{Auth::guard('web')->user()->name }}
+                    @auth('web')
+                        <div class="col-lg-4 col-md-4 col-12">
+                            <div class="top-end">
+                                <div class="user">
+                                    <i class="lni lni-user"></i>
+                                    {{ Auth::guard('web')->user()->name }}
+                                </div>
+                                <ul class="user-login">
+                                    <li>
+                                        <form id="logout-form" action="{{ route('user_logout') }}" method="POST">
+                                            @csrf
+                                            <a href="#"
+                                                onclick="document.getElementById('logout-form').submit();">{{ __('Sign Out') }}</a>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="user-login">
-                                <li>
-                                    <form id="logout-form" action="{{ route('user_logout') }}" method="POST">
-                                        @csrf
-                                        <a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
-                                    </form>
-                                </li>
-                            </ul>
                         </div>
-                    </div>
                     @else
-                    <div class="col-lg-4 col-md-4 col-12">
-                        <div class="top-end">
-                            <div class="user">
-                                <i class="lni lni-user"></i>
+                        <div class="col-lg-4 col-md-4 col-12">
+                            <div class="top-end">
+                                <div class="user">
+                                    <i class="lni lni-user"></i>
+                                </div>
+                                <ul class="user-login">
+                                    <li>
+                                        <a href="{{ route('login') }}">{{ __('Sign In') }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="user-login">
-                                <li>
-                                    <a href="{{ route('login') }}">login</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('register') }}">Register</a>
-                                </li>
-                            </ul>
                         </div>
-                    </div>
                     @endauth
                 </div>
             </div>
@@ -182,9 +182,9 @@
                                     </a>
                                 </div>
 
-                        <!-- start cart-menu notification -->
-                            <x-cart-menu/>
-                        <!-- End cart-menu notification -->
+                                <!-- start cart-menu notification -->
+                                <x-cart-menu />
+                                <!-- End cart-menu notification -->
 
                             </div>
                         </div>
@@ -259,9 +259,10 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
-                                            data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
-                                            aria-expanded="false" aria-label="Toggle navigation">Shop</a>
+                                        <a class="dd-menu collapsed" href="javascript:void(0)"
+                                            data-bs-toggle="collapse" data-bs-target="#submenu-1-3"
+                                            aria-controls="navbarSupportedContent" aria-expanded="false"
+                                            aria-label="Toggle navigation">Shop</a>
                                         <ul class="sub-menu collapse" id="submenu-1-3">
                                             <li class="nav-item"><a href="product-grids.html">Shop Grid</a></li>
                                             <li class="nav-item"><a href="product-list.html">Shop List</a></li>
@@ -271,11 +272,13 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
-                                            data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent"
-                                            aria-expanded="false" aria-label="Toggle navigation">Blog</a>
+                                        <a class="dd-menu collapsed" href="javascript:void(0)"
+                                            data-bs-toggle="collapse" data-bs-target="#submenu-1-4"
+                                            aria-controls="navbarSupportedContent" aria-expanded="false"
+                                            aria-label="Toggle navigation">Blog</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
-                                            <li class="nav-item"><a href="blog-grid-sidebar.html">Blog Grid Sidebar</a>
+                                            <li class="nav-item"><a href="blog-grid-sidebar.html">Blog Grid
+                                                    Sidebar</a>
                                             </li>
                                             <li class="nav-item"><a href="blog-single.html">Blog Single</a></li>
                                             <li class="nav-item"><a href="blog-single-sidebar.html">Blog Single
@@ -318,11 +321,11 @@
     </header>
     <!-- End Header Area -->
 
-    {{$breadcrumbs ?? ''}}
+    {{ $breadcrumbs ?? '' }}
 
 
     {{ $slot }}
-  
+
     <!-- End Account Login Area -->
 
     <!-- Start Footer Area -->
@@ -408,8 +411,8 @@
                             <div class="single-footer f-link">
                                 <h3>Information</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">About Us</a></li>
-                                    <li><a href="javascript:void(0)">Contact Us</a></li>
+                                    <li><a href="javascript:void(0)">{{ __('About Us') }}</a></li>
+                                    <li><a href="javascript:void(0)">{{ __('Contact Us') }}</a></li>
                                     <li><a href="javascript:void(0)">Downloads</a></li>
                                     <li><a href="javascript:void(0)">Sitemap</a></li>
                                     <li><a href="javascript:void(0)">FAQs Page</a></li>

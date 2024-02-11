@@ -4,9 +4,16 @@ use App\Http\Controllers\Auth\CustomLogoutController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\HomeController;
 
-Route::middleware([])->group(function () {
 
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+
+], function(){
+
+    Route::get('/', [HomeController::class,'index'])->name('home');
 
     Route::get('/products', [ProductController::class,'index'])->name('frontproducts.index');
     Route::get('/product/{product:slug}', [ProductController::class,'show'])->name('product.show');
