@@ -2,6 +2,7 @@
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth:admin,web','verified'])->group(function () {
@@ -21,6 +22,8 @@ Route::middleware(['auth:admin,web','verified'])->group(function () {
 
     Route::get('/mark-as-read/{id}',  [NotificationController::class, 'markAsRead'])->name('markAsRead');
 
+    //roles
+    Route::resource('dashboard/roles', RoleController::class);
 
 });
 

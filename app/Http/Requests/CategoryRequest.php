@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryRequest extends FormRequest
 {
@@ -11,7 +12,12 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this->route('id')) {
+           return Gate::allows('categories.edit');
+            
+        }
+        return  Gate::allows('categories.create');
+        
     }
 
     /**

@@ -3,20 +3,15 @@
 @push('styles')
 @endpush
 
-@section('title', 'Categories')
+@section('title', 'Trashed categories')
 
 
 
 @section('content')
 <div class="container ">
-
     <div class="mb-3">
-        @can('categories.create')
-        <a href="{{ route('categories.create') }}" class="btn btn-success">Create</a>
-        @endcan
-        <a href="{{ route('categories.trashes') }}" class="btn btn-danger">view trashes</a>
+        <a href="{{ route('categories.index') }}" class="btn btn-success">Back</a>
     </div>
-
     <form action="{{ url()->current() }}" method="GET" class="mb-3">
         @csrf
         <div class="row">
@@ -35,7 +30,6 @@
             </div>
         </div>
     </form>
-    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -44,9 +38,8 @@
                     <th>Name</th>
                     <th>Parent</th>
                     <th>Status</th>
-                    {{-- <th>Image</th> --}}
-                    <th>count of active products</th>
-                    <th>Created At</th>
+                    <th>Image</th>
+                    <th>Deleted At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -54,26 +47,23 @@
                 @forelse($categories as $category)
                     <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
-                        <td><a href="{{ route('categories.show', $category->id) }}" >{{ $category->name }}</a></td>
-                        {{-- <td>{{ $category->parent_id ? $category->parent->name : '-' }}</td> --}}
-                        <td>{{ $category->parent_name ? $category->parent_name : '-' }}</td>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
                         <td class="align-middle {{ $category->status === 'active' ? 'text-success' : 'text-danger' }}">
                             {{ $category->status }}
-                        </td>                   
-                        {{-- <td class="align-middle">
+                        </td>                        <td class="align-middle">
                             <img src="{{ asset("storage/$category->image") }}"
                                 alt="{{ $category->name . ' photo not exist' }}"  height="50"
                                 width="50">
-                        </td> --}}
-                        <td>{{ $category->products_count}}</td>
-                        <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
+                        </td>
+                        <td>{{ $category->deleted_at->format('Y-m-d H:i:s') }}</td>
                         <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ route('categories.restoreTrashes', $category->id) }}" class="btn btn-sm btn-success">restore</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                 data-target="#deleteModal{{ $category->id }}">
                                 Delete
                             </button>
-                            @include('dashboard.categories.delete')
+                            @include('dashboard.category.delete')
                         </td>
                     </tr>
                 @empty
@@ -83,6 +73,7 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
 
     <div class="d-flex justify-content-center">
         {{ $categories->withQueryString()->links() }}
@@ -93,4 +84,5 @@
 @endsection
 
 @push('scripts')
+
 @endpush

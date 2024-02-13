@@ -73,7 +73,6 @@
                                                 {{ $properties['native'] }}
                                             </a>
                                         @endforeach
-                                        </form>
                                     </div>
                                 </li>
                             </ul>

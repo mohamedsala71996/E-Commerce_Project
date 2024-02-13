@@ -15,6 +15,7 @@ return [
         'title'=> 'Categories',
         'active'=>'categories.*',
         'badge'=> 'new',
+        'ability'=>'categories.view'   
     ],
     [
         'icon'=>'fas fa-tags nav-icon',
@@ -22,6 +23,8 @@ return [
         'title'=> 'Products',
         'active'=>'products.*',
         'badge'=> 'new',
+        'ability'=>'products.view'   
+
     ],
     [
         'icon'=>'fas fa-tags nav-icon',
@@ -29,6 +32,17 @@ return [
         'title'=> 'Profile',
         'active'=>'profiles.*',
         'badge'=> 'new',
+        'ability'=>'profile.view'   
+
+    ],
+    [
+        'icon'=>'fas fa-tags nav-icon',
+        'route'=>'roles.index',
+        'title'=> 'role',
+        'active'=>'roles.*',
+        'badge'=> 'new',
+        'ability'=>'role.view'   
+
     ],
 
 

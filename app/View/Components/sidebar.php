@@ -13,7 +13,7 @@ class sidebar extends Component
     
     public function __construct()
     {
-        $this->items = config("sidebar");
+        $this->items = $this->prepare(config("sidebar"));
     }
 
    
@@ -21,5 +21,17 @@ class sidebar extends Component
     public function render(): View|Closure|string
     {
         return view('components.sidebar');
+    }
+
+    protected function prepare($items){
+        $user=auth()->user();
+        foreach ($items as $key => $item) {
+            if (isset($item['ability']) && !$user->can($item['ability'])) {
+                unset($items[$key]);
+            }
+
+        }
+        return $items;
+
     }
 }
