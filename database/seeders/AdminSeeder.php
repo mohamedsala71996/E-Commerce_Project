@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Facades\Abilities;
+use App\Models\Admin;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +19,8 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
             // DB::table('admins')->truncate();
-            $admins = [
-                [
+            $data = [
+               'admin' => [
                     'name' => 'Mohamed Salah',
                     'email' => 'mohamed_sala712@yahoo.com',
                     'username' => 'mohamedsala712',
@@ -26,9 +29,26 @@ class AdminSeeder extends Seeder
                     'super_admin'=>false,
 
                 ],
+               'role' => [
+                    'name' => 'administrator',
+                ],
                
             ];
-            DB::table('admins')->insert($admins);
+
+           $admin=Admin::create($data['admin']);
+           $role=Role::create($data['role']);
+           foreach (Abilities::abilities() as $key => $value) {
+            $role->roleAbility()->create([
+                'ability' => $key,
+                'type'=>'allow',
+            ]);
+           }
+           $admin->roles()->attach($role->id);
+
+
+            // DB::table('roles')->insert($data['role']);
+
+
         }
     }
     
