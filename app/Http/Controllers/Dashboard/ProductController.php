@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Traits\FileMethods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 
@@ -27,6 +28,8 @@ class ProductController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Product::class); //policy
+        // Gate::authorize('products.view');
 
         $products = Product::with(["store", "category"])->paginate(10);
 
@@ -38,6 +41,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class); //policy
+        // Gate::authorize('products.create');
+
         $product = new Product();
         $categories = Category::all();
         return view("dashboard.products.create", compact("product", 'categories'));
@@ -48,6 +54,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        $this->authorize('create', Product::class); //policy
         $data = array_merge($request->except('image', 'tags'),['slug' => Str::slug($request->name)]);
         $imagePath = $request->file('image')? $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "Product" . $request->file('image')->getClientOriginalName(), 'public'): '';
         $product = $this->productRepository->createProduct(array_merge($data, ['image' => $imagePath]));
@@ -78,6 +85,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update', $product); //policy
+        // Gate::authorize('products.update');
+
         $categories = Category::all();
         $tags = implode(', ', $product->tags()->pluck('name')->toArray());
         return view('dashboard.products.edit', compact('product', 'categories', 'tags'));
@@ -88,6 +98,8 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product); //policy
+
         $data = array_merge($request->except('image', 'tags'),['slug' => Str::slug($request->name)]);
         if ($request->hasFile('image')) {
             $this->deleteFile($product->image);
@@ -121,6 +133,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     
     {
+        $this->authorize('delete', $product); //policy
+        // Gate::authorize('products.delete');
+
         $product->delete();
         $this->deleteFile($product->image);
         return redirect()->back()->with("success", "Data deleted successfully");

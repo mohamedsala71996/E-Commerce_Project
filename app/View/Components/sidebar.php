@@ -26,9 +26,9 @@ class sidebar extends Component
     protected function prepare($items){
         $user=auth()->user();
         foreach ($items as $key => $item) {
-            if (isset($item['ability']) && !$user->can($item['ability'])) {
-                unset($items[$key]);
-            }
+            // if (isset($item['ability']) && !$user->can($item['ability'])) {
+            //     unset($items[$key]);
+            // }
 
         }
         return $items;

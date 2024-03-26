@@ -11,9 +11,9 @@
 <div class="container ">
 
     <div class="mb-3">
-        @can('categories.create')
+        {{-- @can('categories.create') --}}
         <a href="{{ route('categories.create') }}" class="btn btn-success">Create</a>
-        @endcan
+        {{-- @endcan --}}
         <a href="{{ route('categories.trashes') }}" class="btn btn-danger">view trashes</a>
     </div>
 

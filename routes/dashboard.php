@@ -1,8 +1,11 @@
 <?php
+
+use App\Http\Controllers\Dashboard\AdminRolesController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\UserRolesController;
 use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth:admin,web','verified'])->group(function () {
@@ -17,13 +20,17 @@ Route::middleware(['auth:admin,web','verified'])->group(function () {
     Route::resource('dashboard/products', ProductController::class);
 
     // profile
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('dashboard/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('dashboard/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/mark-as-read/{id}',  [NotificationController::class, 'markAsRead'])->name('markAsRead');
+    Route::get('dashboard/mark-as-read/{id}',  [NotificationController::class, 'markAsRead'])->name('markAsRead');
 
     //roles
     Route::resource('dashboard/roles', RoleController::class);
+
+
+    Route::resource('dashboard/admins', AdminRolesController::class);
+    Route::resource('dashboard/users', UserRolesController::class);
 
 });
 

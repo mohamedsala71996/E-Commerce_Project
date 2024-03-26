@@ -8,7 +8,8 @@
 <fieldset>
     <legend>{{ __('Abilities') }}</legend>
 
-    @foreach (\App\Facades\Abilities::abilities() as $ability_code => $ability_name)
+    {{-- @foreach (\App\Facades\Abilities::abilities() as $ability_code => $ability_name) --}}
+    @foreach (app('abilities') as $ability_code => $ability_name)
     <div class="row mb-2">
         <div class="col-md-6">
             {{  $ability_name }}

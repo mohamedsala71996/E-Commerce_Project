@@ -11,6 +11,8 @@
 
     <div class="mb-3">
         <a href="{{ route('roles.create') }}" class="btn btn-success">Create</a>
+        <a href="{{ route('admins.index') }}" class="btn btn-info">Admins</a>
+        <a href="{{ route('users.index') }}" class="btn btn-info">Users</a>
     </div>
 
     <div class="table-responsive">
@@ -26,7 +28,7 @@
                 @forelse($roles as $role)
                     <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
-                        <td><a href="{{ route('roles.show', $role->id) }}" >{{ $role->name }}</a></td>
+                        <td>{{ $role->name }}</td>
                         <td>
                             <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-sm btn-success">Edit</a>
                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"

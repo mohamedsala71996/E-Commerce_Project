@@ -12,12 +12,12 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->route('id')) {
-           return Gate::allows('categories.edit');
+        // if ($this->route('id')) {
+        //    return Gate::allows('categories.edit');
             
-        }
-        return  Gate::allows('categories.create');
-        
+        // }
+        // return  Gate::allows('categories.create');
+        return true;
     }
 
     /**

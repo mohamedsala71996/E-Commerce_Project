@@ -26,9 +26,11 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-        if (!Gate::allows('categories.view')){
-            abort(403, 'Unauthorized');
-        } 
+        $this->authorize('viewAny',Category::class);
+
+        // if (!Gate::allows('categories.view')){
+        //     abort(403, 'Unauthorized');
+        // } 
 
         // SELECT a.*, b.name as parent_name FROM categories as a
         // LEFT JOIN cateories as b ON b.id = a.parent_id
@@ -51,7 +53,9 @@ class CategoryController extends Controller
 
     public function create()
     {
-        Gate::authorize('categories.create');
+        $this->authorize('create',Category::class);
+
+        // Gate::authorize('categories.create');
         $category = new Category();
         $parents = $this->categoryRepository->getAllCategories();
         return view("dashboard.categories.create", compact("parents", "category"));
@@ -59,6 +63,8 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        $this->authorize('create',Category::class);
+
         // Gate::authorize('categories.create');
 
         $data = array_merge(
@@ -75,14 +81,18 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        Gate::authorize('categories.view');
+        $this->authorize('view', $category); //policy
+
+        // Gate::authorize('categories.view');
 
        return view("dashboard.categories.show", compact("category"));
     }
 
     public function edit($CategoryId)
     {
-        Gate::authorize('categories.edit');
+        $this->authorize('update', Category::find($CategoryId));
+
+        // Gate::authorize('categories.update');
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         $parents = Category::where('id', '!=', $CategoryId)
             ->where(function ($query) use ($CategoryId) {
@@ -95,7 +105,9 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, $CategoryId)
     {
-        // Gate::authorize('categories.edit');
+        $this->authorize('update', Category::find($CategoryId));
+
+        // Gate::authorize('categories.update');
         $data = array_merge($request->except('image', '_token', '_method', 'id'), ['slug' => Str::slug($request->name)]);
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         if ($request->hasFile('image')) {
@@ -112,7 +124,9 @@ class CategoryController extends Controller
 
     public function destroy($CategoryId)
     {
-        Gate::authorize('categories.delete');
+        $this->authorize('delete', Category::find($CategoryId));
+
+        // Gate::authorize('categories.delete');
 
         // $imagePath = Category::findOrFail($CategoryId)->image;
         $this->categoryRepository->deleteCategory($CategoryId);

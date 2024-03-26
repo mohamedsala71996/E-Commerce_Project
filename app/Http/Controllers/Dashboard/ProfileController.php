@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\Intl\Locales;
 
@@ -15,6 +17,10 @@ class ProfileController extends Controller
 
     public function edit()
     {
+        $this->authorize('view',Profile::class);
+
+        // Gate::authorize('profile.update');
+
         \Locale::setDefault('en');
         $user=User::findOrFail(auth()->user()->id);
         $countries = Countries::getNames();
@@ -25,7 +31,7 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileRequest $request, User $user)
     {
-      
+        $this->authorize('update',Profile::findOrFail($user->id));
         // $validated = $request->validated();
         // if ( isset($user->profile->user_id) ) {
         //     $user->profile()->update($validated);

@@ -1,38 +1,34 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Interfaces\DataRepositoryInterface;
 
 class DataRepository implements DataRepositoryInterface
 {
-   public function abilities()
+    public function abilities()
     {
-        return [
 
+        return [
             'categories.view' => __('category view'),
             'categories.create' => __('category create'),
-            'categories.edit' => __('category edit'),
+            'categories.update' => __('category update'),
             'categories.delete' => __('category delete'),
-        
+
             'products.view' => __('product view'),
             'products.create' => __('product create'),
-            'products.edit' => __('product edit'),
+            'products.update' => __('product update'),
             'products.delete' => __('product delete'),
-            
-            'profile.view' => __('profile view'),
-            'profile.edit' => __('profile edit'),
-            'profile.delete' => __('profile delete'),
-        
-        
-           'role.view' => __('Role view'),
-           'role.create' => __('Role create'),
-            'role.edit' => __('Role edit'),
-            'role.delete' => __('Role delete'),
-            
-        
+
+            'profiles.view' => __('profile view'),
+            'profiles.update' => __('profile update'),
+
+
+            'roles.view' => __('Role view'),
+            'roles.create' => __('Role create'),
+            'roles.update' => __('Role update'),
+            'roles.delete' => __('Role delete'),
+
         ];
     }
-
-
-
 }

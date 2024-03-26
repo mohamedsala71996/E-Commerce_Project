@@ -10,7 +10,7 @@
     @csrf
     @method('put')
     
-    @include('dashboard.category._form', [
+    @include('dashboard.categories._form', [
         'button_label' => 'Update'    
     ])
 </form>

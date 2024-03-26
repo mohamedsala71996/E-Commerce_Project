@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
             // DB::table('admins')->truncate();
             $users = [
                 [
-                    'name' => 'Mohamed Salah',
-                    'email' => 'mohamed_sala712@yahoo.com',
+                    'name' => 'Amgad Salah',
+                    'email' => 'a@yahoo.com',
                     'password' => Hash::make('123456789'),
                 ],
                

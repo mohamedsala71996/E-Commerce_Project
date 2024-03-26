@@ -32,7 +32,7 @@ return [
         'title'=> 'Profile',
         'active'=>'profiles.*',
         'badge'=> 'new',
-        'ability'=>'profile.view'   
+        'ability'=>'profiles.view'   
 
     ],
     [
@@ -41,7 +41,7 @@ return [
         'title'=> 'role',
         'active'=>'roles.*',
         'badge'=> 'new',
-        'ability'=>'role.view'   
+        'ability'=>'roles.view'   
 
     ],
 
