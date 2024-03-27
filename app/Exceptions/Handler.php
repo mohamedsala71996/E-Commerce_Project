@@ -12,7 +12,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
+    protected $dontFlash = [ //importatnt information you don't want to flash
         'current_password',
         'password',
         'password_confirmation',
