@@ -19,43 +19,30 @@ class CategoryController extends Controller
     use FileMethods;
 
     private CategoryRepositoryInterface $categoryRepository;
-
     public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
+
     public function index(Request $request)
     {
-        $this->authorize('viewAny',Category::class);
-
-        // if (!Gate::allows('categories.view')){
-        //     abort(403, 'Unauthorized');
-        // } 
-
-        // SELECT a.*, b.name as parent_name FROM categories as a
-        // LEFT JOIN cateories as b ON b.id = a.parent_id
-        
-        $categories = Category::leftJoin('categories as parents' , 'parents.id', '=' , 'categories.parent_id')
-        ->select([
+        $this->authorize('viewAny', Category::class);
+        $categories = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+            ->select([
                 'categories.*',
                 'parents.name as parent_name'
 
             ])
-        ->withCount('products')
-        // ->withCount(['products' => function ($query) {
-        //     $query->where('status', 'active');
-        // }])
-        ->Filter($request->query())
-        ->paginate(10);
+            ->withCount('products')
+            ->Filter($request->query())
+            ->paginate(10);
         return view("dashboard.categories.index", compact("categories"));
     }
 
 
     public function create()
     {
-        $this->authorize('create',Category::class);
-
-        // Gate::authorize('categories.create');
+        $this->authorize('create', Category::class);
         $category = new Category();
         $parents = $this->categoryRepository->getAllCategories();
         return view("dashboard.categories.create", compact("parents", "category"));
@@ -63,10 +50,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $this->authorize('create',Category::class);
-
-        // Gate::authorize('categories.create');
-
+        $this->authorize('create', Category::class);
         $data = array_merge(
             $request->except('image'),
             ['slug' => Str::slug($request->name)]
@@ -82,17 +66,12 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $this->authorize('view', $category); //policy
-
-        // Gate::authorize('categories.view');
-
-       return view("dashboard.categories.show", compact("category"));
+        return view("dashboard.categories.show", compact("category"));
     }
 
     public function edit($CategoryId)
     {
         $this->authorize('update', Category::find($CategoryId));
-
-        // Gate::authorize('categories.update');
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         $parents = Category::where('id', '!=', $CategoryId)
             ->where(function ($query) use ($CategoryId) {
@@ -106,8 +85,6 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $CategoryId)
     {
         $this->authorize('update', Category::find($CategoryId));
-
-        // Gate::authorize('categories.update');
         $data = array_merge($request->except('image', '_token', '_method', 'id'), ['slug' => Str::slug($request->name)]);
         $category = $this->categoryRepository->getCategoryById($CategoryId);
         if ($request->hasFile('image')) {
@@ -125,40 +102,28 @@ class CategoryController extends Controller
     public function destroy($CategoryId)
     {
         $this->authorize('delete', Category::find($CategoryId));
-
-        // Gate::authorize('categories.delete');
-
-        // $imagePath = Category::findOrFail($CategoryId)->image;
         $this->categoryRepository->deleteCategory($CategoryId);
-        // $this->deleteFile($imagePath);
         return redirect()->back()->with("success", "Data trashed successfully");
     }
 
     public function viewTrashes(Request $request)
-
     {
         $categories = Category::Filter($request)->onlyTrashed()->paginate(10);
         return view('dashboard.categories.trashes', compact('categories'));
     }
+
     public function forceDelete($CategoryId)
 
     {
         $imagePath = Category::onlyTrashed()->findOrFail($CategoryId)->image;
         $this->categoryRepository->forceDeleteCategory($CategoryId);
         $this->deleteFile($imagePath);
-
         return redirect()->back()->with("success", "Data deleted successfully");
-
     }
+
     public function restoreTrashes($CategoryId)
-
     {
-
         $this->categoryRepository->restoreTrashesCategory($CategoryId);
         return redirect()->back()->with("success", "Data restored successfully");
-        
-
     }
-
-
 }

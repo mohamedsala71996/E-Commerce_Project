@@ -25,18 +25,13 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
 
         $this->middleware('auth:sanctum')->except(['index', 'show']);
-
     }
-
 
     public function index(Request $request)
     {
-        return Product::with('store:id,name','category:id,name','tags:id,name')->filter($request->query())->get();
+        return Product::with('store:id,name', 'category:id,name', 'tags:id,name')->filter($request->query())->get();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): JsonResponse
     {
         try {
@@ -53,9 +48,9 @@ class ProductController extends Controller
                 'featured' => 'boolean',
                 'status' => 'required|in:active,archived,draft',
             ]);
-            $user=$request->user();
-            if(!$user->tokenCan('products.store')){
-                return response()->json([ 'message' =>'user not allowed'], 403);
+            $user = $request->user();
+            if (!$user->tokenCan('products.store')) {
+                return response()->json(['message' => 'user not allowed'], 403);
             }
             $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
             $imagePath = $request->file('image') ? $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "Product" . $request->file('image')->getClientOriginalName(), 'public') : '';
@@ -64,32 +59,23 @@ class ProductController extends Controller
             $tag_ids = [];
             foreach ($tags as $tag_name) {
                 $slug = Str::slug($tag_name);
-                $tag = Tag::updateOrCreate([ 'name' => $tag_name,'slug' => $slug]);
+                $tag = Tag::updateOrCreate(['name' => $tag_name, 'slug' => $slug]);
                 $tag_ids[] = $tag->id;
             }
             $product->tags()->attach($tag_ids);
-            return response()->json(['message' => 'Data saved successfully', 'data' => $product],201, [ 
-                'location' => route('products.show',$product->id)
+            return response()->json(['message' => 'Data saved successfully', 'data' => $product], 201, [
+                'location' => route('products.show', $product->id)
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save data', 'message' => $e->getMessage()], 500);
         }
     }
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Product $product)
     {
-        return $product->load('store:id,name','category:id,name','tags:id,name');
+        return $product->load('store:id,name', 'category:id,name', 'tags:id,name');
     }
-    // public function show( $id)
-    // {
-    //     return Product::with('store:id,name','category:id,name','tags:id,name')->findOrFail($id);
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Product $product): JsonResponse
     {
         try {
@@ -106,9 +92,9 @@ class ProductController extends Controller
                 'featured' => 'boolean',
                 'status' => 'sometimes|required|in:active,archived,draft',
             ]);
-            $user=$request->user();
-            if(!$user->tokenCan('products.update')){
-                return response()->json([ 'message' =>'user not allowed'], 403);
+            $user = $request->user();
+            if (!$user->tokenCan('products.update')) {
+                return response()->json(['message' => 'user not allowed'], 403);
             }
             $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
             if ($request->hasFile('image')) {
@@ -138,16 +124,12 @@ class ProductController extends Controller
         }
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product): JsonResponse
     {
         try {
-            $user=Auth::guard('sanctum')->user();
-            if(!$user->tokenCan('products.destroy')) {
-                return response()->json([ 'message' =>'user not allowed'], 403);
+            $user = Auth::guard('sanctum')->user();
+            if (!$user->tokenCan('products.destroy')) {
+                return response()->json(['message' => 'user not allowed'], 403);
             }
             $product->delete();
             $this->deleteFile($product->image);

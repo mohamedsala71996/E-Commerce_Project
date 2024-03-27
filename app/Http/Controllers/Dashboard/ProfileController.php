@@ -13,34 +13,20 @@ use Symfony\Component\Intl\Locales;
 
 class ProfileController extends Controller
 {
-
-
     public function edit()
     {
         $this->authorize('view',Profile::class);
-
-        // Gate::authorize('profile.update');
-
         \Locale::setDefault('en');
         $user=User::findOrFail(auth()->user()->id);
         $countries = Countries::getNames();
         $locales = Locales::getNames();
-
         return view('dashboard.profile.edit', compact('user','countries','locales'));
     }
 
     public function update(UpdateProfileRequest $request, User $user)
     {
         $this->authorize('update',Profile::findOrFail($user->id));
-        // $validated = $request->validated();
-        // if ( isset($user->profile->user_id) ) {
-        //     $user->profile()->update($validated);
-        // }else{
-        //     $user->profile()->create($validated);
-
-        // }
         $user->profile()->updateOrCreate([], $request->validated());
-
         return redirect()->route('profile.edit')->with('success', 'Data saved successfully');
     }
 }

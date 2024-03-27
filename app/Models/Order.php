@@ -20,7 +20,7 @@ class Order extends Model
         'discount',
         'total',
     ];
-    protected $table = 'orderrs'; 
+    protected $table = 'orderrs';
 
 
     // Relationships
@@ -33,47 +33,41 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
     public function products()
     {
-        return $this->belongsToMany(Product::class,'orderr_items')->using(OrderItem::class)->as('order_items')->withPivot('product_name','price','quantity','options');
-        // return $this->belongsToMany(Product::class,'order_items','order_id','product_id','id','id');
+        return $this->belongsToMany(Product::class, 'orderr_items')->using(OrderItem::class)->as('order_items')->withPivot('product_name', 'price', 'quantity', 'options');
     }
 
     //relations between orders and order_addresses
-
     public function addresses()
     {
         return $this->hasMany(OrderAddress::class);
     }
+
     public function billing()
     {
-        // return $this->addresses()->where('type','billing'); // return collection
-        return $this->hasOne(OrderAddress::class,'order_id')->where('type','billing'); // return one 
+        return $this->hasOne(OrderAddress::class, 'order_id')->where('type', 'billing'); // return one 
     }
+    
     public function shipping()
     {
-        return $this->hasOne(OrderAddress::class,'order_id')->where('type','shipping');
+        return $this->hasOne(OrderAddress::class, 'order_id')->where('type', 'shipping');
     }
-
 
     protected static function booted()
     {
-
-        static::creating(function(Order $order){
-            $order->number= Order::getNextOrderNumber();
+        static::creating(function (Order $order) {
+            $order->number = Order::getNextOrderNumber();
         });
     }
+
     public static function getNextOrderNumber()
     {
-
-     $number = Order::whereYear('created_at',now()->format('Y'))->max('number');
-     if ($number) {
-      return  $number+1;
-     }
-    return $number=now()->format('Y').'0001';
-
+        $number = Order::whereYear('created_at', now()->format('Y'))->max('number');
+        if ($number) {
+            return  $number + 1;
+        }
+        return $number = now()->format('Y') . '0001';
     }
-
-
-
 }

@@ -18,42 +18,31 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-            // DB::table('admins')->truncate();
-            $data = [
-               'admin' => [
-                    'name' => 'Mohamed Salah',
-                    'email' => 'mohamed_sala712@yahoo.com',
-                    'username' => 'mohamedsala712',
-                    'password' => Hash::make('123456789'),
-                    'phone_number' =>'01066943748',
-                    'super_admin'=>false,
+        // DB::table('admins')->truncate();
+        $data = [
+            'admin' => [
+                'name' => 'Mohamed Salah',
+                'email' => 'mohamed_sala712@yahoo.com',
+                'username' => 'mohamedsala712',
+                'password' => Hash::make('123456789'),
+                'phone_number' => '01066943748',
+                'super_admin' => false,
 
-                ],
-               'role' => [
-                    'name' => 'administrator',
-                ],
-               
-            ];
+            ],
+            'role' => [
+                'name' => 'administrator',
+            ],
 
-           $admin=Admin::create($data['admin']);
-           $role=Role::create($data['role']);
-           foreach (Abilities::abilities() as $key => $value) {
+        ];
+
+        $admin = Admin::create($data['admin']);
+        $role = Role::create($data['role']);
+        foreach (Abilities::abilities() as $key => $value) {
             $role->roleAbility()->create([
                 'ability' => $key,
-                'type'=>'allow',
+                'type' => 'allow',
             ]);
-           }
-           $admin->roles()->attach($role->id);
-
-
-            // DB::table('roles')->insert($data['role']);
-
-
         }
+        $admin->roles()->attach($role->id);
     }
-    
-
-
-
-    
-
+}

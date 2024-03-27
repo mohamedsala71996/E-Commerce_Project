@@ -24,7 +24,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::withTrashed()->findOrFail($CategoryId)->forceDelete();
     }
-    
+
     public function restoreTrashesCategory($CategoryId)
     {
         return Category::withTrashed()->findOrFail($CategoryId)->restore();
@@ -38,5 +38,4 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::whereId($CategoryId)->update($newDetails);
     }
-
 }

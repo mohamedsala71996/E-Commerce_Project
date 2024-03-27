@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            // $table->foreignId('store_id')->nullable()->constrained('stores', 'id')->nullOnDelete();
             $table->boolean('super_admin')->default(false);
             $table->timestamp('last_active_at')->nullable();
             $table->rememberToken();

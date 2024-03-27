@@ -15,7 +15,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::findOrFail($ProductId);
     }
-    // -----------------------Delete_unctions-------------------------
+    // -----------------------Delete_functions-------------------------
     public function deleteProduct($ProductId)
     {
         return  Product::destroy($ProductId);

@@ -17,10 +17,7 @@ class OrderNotification
     {
         //
     }
-
-    /**
-     * Handle the event.
-     */
+    
     public function handle(object $event): void
     {
        $order= $event->order;

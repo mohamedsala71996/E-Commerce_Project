@@ -38,6 +38,7 @@ class Product extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault(['name'=>'-']);
@@ -50,17 +51,12 @@ class Product extends Model
 
     protected static function booted()
     {
-
         static::addGlobalScope('store', function (Builder $builder) {
             $user=auth()->user();
             if ($user && $user->store_id) {
                 $builder->where('store_id',$user->store_id);
             }
         });
-
-        // static::creating(function (Product $product)  {
-        //     $product->slug=Str::slug( $product->name);
-        // });
     }
 
     public function scopeActive(Builder $builder)
@@ -78,15 +74,13 @@ class Product extends Model
 
     public function getDiscountPercentAttribute() 
     {
-       
         if ($this->compare_price) {
            return (($this->compare_price-$this->price)/$this->compare_price)*100;
         }else{
             return '';
         }
-    
-        
     }
+
     public function scopeFilter(Builder $builder,$filter)
     {
       $options= array_merge([
@@ -95,7 +89,6 @@ class Product extends Model
           'store_id' => null,
           'tag_id' => null,
         ],$filter);
-
 
         $builder->when($options['status'], function ($builder, $status) {
             $builder->where('status', $status);
@@ -109,38 +102,7 @@ class Product extends Model
         $builder->when($options['tag_id'], function ($builder, $tag_id) {
             $builder->join('product_tag', 'products.id', '=', 'product_tag.product_id')
             ->where('product_tag.tag_id', '=', $tag_id);
-
-            // $builder->whereExists(function ($builder)use ($tag_id){
-
-            //     $builder->select(1)
-            //     ->from('product_tag')
-            //     ->whereRaw('products.id = product_tag.product_id')
-            //     ->where('tag_id','=',$tag_id);
-
-            // }); //more performance but not working
-
-            // $builder->whereRaw('id IN (SELECT product_id FROM product_tag WHERE tag_id = ?)', [$value]); //less performance
-            // --------------------------------------------------------------
-            // $builder->whereRaw('EXISTS (SELECT 1 FROM product_tag WHERE tag_id = ? AND product_id = products.id)', [$value]); //more performance
-            // --------------------------------------------------------------
-            // $builder->whereHas('tags', function ($query) use ($tag_id) {
-            //     $query->where('id', $tag_id);
-            // }); //less performance
         });
-
-
     }
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     // Check if the user is authenticated and has a store_id
-    //     if (Auth::check() && ($user = Auth::user()->store_id)) {
-    //         // Apply global scope to filter products based on store_id
-    //         static::addGlobalScope('store', function ($builder) use ($user) {
-    //             $builder->where('store_id', $user);
-    //         });
-    //     }
-    // }
 }

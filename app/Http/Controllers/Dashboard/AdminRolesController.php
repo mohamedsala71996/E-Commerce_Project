@@ -23,7 +23,6 @@ class AdminRolesController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -47,13 +46,9 @@ class AdminRolesController extends Controller
      */
     public function edit(Admin $admin)
     {
-        // $adminRoles = [];
-        // foreach ($admin->roles as $role) {
-        //     $adminRoles[$role->name] = $role->name;
-        // }
         $roles = Role::all();
-        $adminRolesIds=$admin->roles->pluck('id')->toArray();
-        return view('dashboard.roles.admins.edit', compact('roles','admin','adminRolesIds'));
+        $adminRolesIds = $admin->roles->pluck('id')->toArray();
+        return view('dashboard.roles.admins.edit', compact('roles', 'admin', 'adminRolesIds'));
     }
 
     /**
@@ -61,7 +56,7 @@ class AdminRolesController extends Controller
      */
     public function update(Request $request, Admin $admin)
     {
-        $ids=$request->roles;
+        $ids = $request->roles;
         $admin->roles()->sync($ids);
         return redirect()->route('admins.index')->with("success", "Data saved successfully");
     }

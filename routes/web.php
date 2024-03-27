@@ -25,13 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->middleware(['auth:admin,web', 'verified'])->name('dashboard');
-// })->middleware(['auth', 'verified','checkType:admin,super-admin'])->name('dashboard');
 
-// Route::middleware('auth:admin,web')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
     //-------------------------------custom logout--------------------------------
 Route::post('Admin/logout', [CustomLogoutController::class, 'admin_logout'])->name('admin_logout');
 

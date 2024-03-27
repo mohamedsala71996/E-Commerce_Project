@@ -19,44 +19,31 @@ class ProductController extends Controller
     use FileMethods;
 
     private ProductRepositoryInterface $productRepository;
-
     public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
     }
 
-
     public function index()
     {
         $this->authorize('viewAny', Product::class); //policy
-        // Gate::authorize('products.view');
-
         $products = Product::with(["store", "category"])->paginate(10);
-
         return view("dashboard.products.index", compact("products"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $this->authorize('create', Product::class); //policy
-        // Gate::authorize('products.create');
-
         $product = new Product();
         $categories = Category::all();
         return view("dashboard.products.create", compact("product", 'categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(ProductRequest $request)
     {
         $this->authorize('create', Product::class); //policy
-        $data = array_merge($request->except('image', 'tags'),['slug' => Str::slug($request->name)]);
-        $imagePath = $request->file('image')? $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "Product" . $request->file('image')->getClientOriginalName(), 'public'): '';
+        $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
+        $imagePath = $request->file('image') ? $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "Product" . $request->file('image')->getClientOriginalName(), 'public') : '';
         $product = $this->productRepository->createProduct(array_merge($data, ['image' => $imagePath]));
         $tags = explode(',', $request->tags);
         $tag_ids = [];
@@ -72,35 +59,23 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Data saved successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Product $product)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Product $product)
     {
         $this->authorize('update', $product); //policy
-        // Gate::authorize('products.update');
-
         $categories = Category::all();
         $tags = implode(', ', $product->tags()->pluck('name')->toArray());
         return view('dashboard.products.edit', compact('product', 'categories', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(ProductRequest $request, Product $product)
     {
         $this->authorize('update', $product); //policy
-
-        $data = array_merge($request->except('image', 'tags'),['slug' => Str::slug($request->name)]);
+        $data = array_merge($request->except('image', 'tags'), ['slug' => Str::slug($request->name)]);
         if ($request->hasFile('image')) {
             $this->deleteFile($product->image);
             $imagePath = $request->file('image')->storeAs('ProductPhotos', $data['slug'] . "_Product_" . $request->file('image')->getClientOriginalName(), 'public');
@@ -126,16 +101,9 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Data saved successfully');
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
-    
     {
         $this->authorize('delete', $product); //policy
-        // Gate::authorize('products.delete');
-
         $product->delete();
         $this->deleteFile($product->image);
         return redirect()->back()->with("success", "Data deleted successfully");

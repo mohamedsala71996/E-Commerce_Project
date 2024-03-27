@@ -30,7 +30,6 @@ class FortifyServiceProvider extends ServiceProvider
             config::set('fortify.guard', 'admin');
             config::set('fortify.passwords', 'admins');
             config::set('fortify.prefix', 'admin');
-            // config::set('fortify.home', '/dashboard');
         }
 
         $this->app->instance(LoginResponse::class, new class implements LoginResponse
@@ -50,7 +49,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Fortify::authenticateUsing( [new AuthenticateUser,'authenticate']);
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
@@ -66,28 +64,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        // Fortify::viewPrefix('auth.'); //return all view pages if i use the standard name of pages
-        // Fortify::loginView('auth.login');
-        // Fortify::registerView('auth.register');
-        // Fortify::resetPasswordView('auth.reset-password');
-
-        //----------------------------------------------------------------
-        //  Fortify::loginView(function(){
-        //     if ( config::get('fortify.guard')=='admin') {
-        //         return view('auth.login');
-        //     }
-        //     return view('front.auth.login');
-        //  });
-        //-------------------------------------------------------
-
-        // if (config('fortify.guard')=='web') {
-
-        //     Fortify::viewPrefix('front.auth.');
-        // }else{
-
-        //     Fortify::viewPrefix('auth.');
-
-        // }
         if (config::get('fortify.guard') == 'web') {
 
             Fortify::viewPrefix('front.auth.');

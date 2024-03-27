@@ -26,9 +26,6 @@ class Profile extends Model
         'phone_number'
     ];
 
-    // protected $casts = [
-    //     'birthday' => 'date',
-    // ];
 
     public function user()
     {

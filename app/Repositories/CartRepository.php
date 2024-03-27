@@ -17,12 +17,12 @@ class CartRepository implements CartRepositoryInterface
 
   public function __construct()
   {
-    $this->items=collect([]);
+    $this->items = collect([]);
   }
   public function get(): Collection
   {
-    if(!$this->items->count()){
-      $this->items=Cart::with('product')->get();
+    if (!$this->items->count()) {
+      $this->items = Cart::with('product')->get();
     }
     return  $this->items;
   }
@@ -30,8 +30,7 @@ class CartRepository implements CartRepositoryInterface
   {
     $item = Cart::where('product_id', $product_id)->first();
     if (!$item) {
-       $cart= Cart::create([
-        // 'cookie_id' => $this->getCookieId(),
+      $cart = Cart::create([
         'user_id' => Auth::id(),
         'product_id' => $product_id,
         'quantity' => $quantity,
@@ -40,14 +39,6 @@ class CartRepository implements CartRepositoryInterface
       return $cart;
     }
     return $item->increment('quantity', $quantity);
-
-    //  return Cart::updateOrCreate(['cookie_id'=>$this->getCookieId(),'product_id'=>$product_id],[
-    //     // 'cookie_id'=>$this->getCookieId(),
-    //     'user_id'=>Auth::id(),
-    //     // 'product_id'=>$product_id,
-    //     'quantity'=>$quantity,
-    //   ]);
-
   }
 
   public function update($id, $quantity = 1)
@@ -71,15 +62,9 @@ class CartRepository implements CartRepositoryInterface
 
   public function total(): float
   {
-    // return (float) Cart::join('products', 'products.id', '=', 'carts.product_id')
-    //   ->selectRaw('SUM(products.price * carts.quantity) as total')
-    //   ->value('total');
-
-    return $this->get()->sum(function($items){
-        return $items->quantity * $items->product->price;
-
+    return $this->get()->sum(function ($items) {
+      return $items->quantity * $items->product->price;
     });
-
   }
 
   protected function getCookieId()
@@ -89,7 +74,6 @@ class CartRepository implements CartRepositoryInterface
       $cookie_id = Str::uuid();
       Cookie::queue('cart_id', $cookie_id, 30 * 24 * 60);
     }
-
     return  $cookie_id;
   }
 }

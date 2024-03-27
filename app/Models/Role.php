@@ -11,9 +11,7 @@ class Role extends Model
 {
     use HasFactory;
 
-
     protected $fillable = ['name'];
-
 
    public function roleAbility() 
     {
@@ -27,7 +25,6 @@ class Role extends Model
         $role = static::create([
             'name' =>$request->name,
         ]);
-
         foreach ($request->abilities as $ability => $type) {
             $role->roleAbility()->create([
                 'ability' => $ability,
@@ -42,6 +39,7 @@ class Role extends Model
     }
         return $role;
     }
+
     public function updateWithAbilities(Request $request, Role $role)
     {
         DB::beginTransaction();
@@ -49,25 +47,19 @@ class Role extends Model
         $role->update([
             'name' => $request->name,
         ]);
-
         foreach ($request->abilities as $key => $value) {
             $role->roleAbility()->updateOrCreate([
                 'role_id' => $role->id,
                 'ability' => $key,
             ], [
-
                 'type' => $value,
             ]);
         }
         DB::commit();
-            
     } catch (\Exception $e) {
         DB::rollBack();
         throw $e;
     }
     }
-
-
-
     
 }

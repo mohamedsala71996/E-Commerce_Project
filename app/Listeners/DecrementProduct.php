@@ -17,10 +17,6 @@ class DecrementProduct
     {
         //
     }
-
-    /**
-     * Handle the event.
-     */
     public function handle(object $event): void
     {
        $carts=Cart::get();
@@ -28,18 +24,8 @@ class DecrementProduct
         $item->product()->update([
             'quantity'=>DB::raw("quantity - $item->quantity" )
         ]);
-        // Product::where('id',$item->product_id)->update([
-        //     'quantity'=>DB::raw("quantity - $item->quantity" )
-        // ]);
+
        }
     }
 
-    // public function handle($event): void
-    // {
-    //   $order=$event->order;
-    //   foreach ($order->products as $product) {
-    //     $product->decrement('quantity',$product->order_items->quantity);
-    //   }
-   
-    // }
 }

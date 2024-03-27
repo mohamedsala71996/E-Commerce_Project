@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('role_user', function (Blueprint $table) {
             $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
-            $table->morphs('authrizable'); //user_id and type ('user','admin')
+            $table->morphs('authrizable'); 
             $table->primary(['authrizable_id', 'authrizable_type', 'role_id']);
         });
     }

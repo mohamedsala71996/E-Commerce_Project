@@ -22,7 +22,6 @@ class modelPolicy
         }
     }
 
-
     public function __call($name, $arguments)
     {
         $modelName=str_replace('Policy', '', class_basename($this));

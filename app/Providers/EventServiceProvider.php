@@ -22,14 +22,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        // 'order.created' => [
-        //     DecrementProduct::class,
-        //     EmptyCart::class,
-        // ],
+
         OrderCreated::class=> [
             DecrementProduct::class,
             OrderNotification::class,
-            // EmptyCart::class,
         ],
     ];
 

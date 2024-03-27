@@ -11,10 +11,8 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AccessTokensController extends Controller
 {
-
     public function store(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:8',
@@ -32,8 +30,6 @@ class AccessTokensController extends Controller
         }
     }
 
-
-
     public function destroy($token = null)
     {
         $user = Auth::guard('sanctum')->user();
@@ -47,9 +43,5 @@ class AccessTokensController extends Controller
             return response()->json(['message' => 'Access token revoked successfully']);
         }
         return response()->json(['message' => 'Invalid token'], 401);
-
-        //revoke all personal access tokens (logout from all devices)
-        // $user->tokens()->delete();
-        // return response()->json(['message' => 'Access token revoked successfully']);
     }
 }
